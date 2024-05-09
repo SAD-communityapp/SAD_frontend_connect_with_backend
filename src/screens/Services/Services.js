@@ -2,7 +2,6 @@ import React, {useState}from "react";
 import {ScrollView, SafeAreaView, View, Text, Alert, StyleSheet, FlatList,Table, Row, Rows  } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
-import NavBar from '../../components/NavBar';
 import colors from '../../assets/colors/colors';
 import Button from "../../components/Button";
 import {Agenda, Calendar, LocaleConfig} from 'react-native-calendars';

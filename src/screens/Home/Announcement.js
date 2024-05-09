@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, useState, TabBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from "../../assets/colors/colors";
 import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
 // import DataTable from "react-data-table-component";
 import Feather from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
+
 const announcements = [
     { id: 1, title: '公告1', content: '這是公告1的內容' },
     { id: 2, title: '公告2', content: '這是公告2的內容' },
@@ -13,7 +15,25 @@ const announcements = [
   ];
 
 
+const tabs = [
+  { key: 'all', title: '所有' },
+  { key: 'type1', title: '類型1' },
+  { key: 'type2', title: '類型2' },
+  // 添加更多選項...
+];
+
 const AnnouncementTable = props => {
+  // const [selectedTab, setSelectedTab] = useState("all"); // 預設選中的選項為 "all"
+
+  // const filteredAnnouncements = announcements.filter(announcement => {
+  //   if (selectedTab === 'all') {
+  //       return true; // 不篩選，顯示所有公告
+  //   } else {
+  //       return announcement.type === selectedTab; // 篩選符合選項的公告
+  //   }
+  // });
+  const navigation = useNavigation()
+
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.itemContainer} onPress={() => handlePress(item)}>
       <Text style={styles.itemText}>{item.title}</Text>
@@ -23,33 +43,30 @@ const AnnouncementTable = props => {
 
   const handlePress = (announcement) => {
     // Handle navigation to the announcement details screen
-    console.log("Navigating to announcement:", announcement.title);
+    //console.log("Navigating to announcement:", announcement.title);
+    navigation.navigate("AnnouncementDetail_1")
+
   };
 
   return (
+
     <View style={styles.table}>
-        
-    {/*Table container*/}
-      {/* <FlatList
-        data={announcements}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()} // Assuming each announcement has a unique ID
-      /> */}
-      {/*Table head */}
       <View style = {styles.table_tab}>
-        <View style={{minWidth: 90, width: '100%' ,justifyContent: 'center', paddingHorizontal: 8}}>
-            <Text style={styles.table_caption}>日期</Text>
+        <View style={styles.table_tab_body_chosen}>
+            <Text style = {styles.table_tab_text_chosen}>全部公告</Text>
         </View>
-        <View style={{minWidth: 142, width: '100%' ,justifyContent: 'center', paddingHorizontal: 8}}>
-            <Text style={styles.table_caption}>標題</Text>
+        <View style={styles.table_tab_body}>
+            <Text style = {styles.table_tab_text}>最新消息</Text>
         </View>
-        <View style={{minWidth: 90, width: '100%' ,justifyContent: 'center', paddingHorizontal: 8}}>
-            <Text style={styles.table_caption}>類別</Text>
+        <View style={styles.table_tab_body}>
+            <Text style = {styles.table_tab_text}>里民活動</Text>
         </View>
-        <View style={{minWidth: 18, width: '100%' ,justifyContent: 'center', paddingHorizontal: 8}}>
+        <View style={styles.table_tab_body}>
+          <Text style={styles.table_tab_text}>管委會相關</Text>
         </View>
       </View>
 
+      {/*Table head */}
       <View style = {styles.table_head}>
         <View style={{minWidth: 90, flex: 1, justifyContent: 'center', paddingHorizontal: 8}}>
             <Text style={styles.table_caption}>日期</Text>
@@ -68,13 +85,13 @@ const AnnouncementTable = props => {
         {/*Row 1 */}
       <View style = {styles.table_body}>
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
-            <Text style={styles.table_data}>2024-04-01</Text>
+            <Text style={styles.table_data_new}>2024-04-01</Text>
         </View>
         <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
-            <Text style={styles.table_data}>水塔清洗公告</Text>
+            <Text style={styles.table_data_new}>水塔清洗公告</Text>
         </View>
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
-            <Text style={styles.table_data}>最新消息</Text>
+            <Text style={styles.table_data_new}>最新消息</Text>
         </View>
         <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
           <Feather name="chevron-right" size={18} color="black" />
@@ -155,7 +172,33 @@ const styles = StyleSheet.create({
         flex: 1
     },
     table_tab:{
-
+      flexDirection: 'row',
+      justifyContent: 'center',
+      flex: 1
+    },
+    table_tab_body:{
+      paddingVertical: 8,
+      borderBottomWidth: 4,
+      borderColor: colors.background_white,
+      flex: 1
+    },
+    table_tab_body_chosen:{
+      paddingVertical: 8,
+      borderBottomWidth: 4,
+      borderColor: colors.primary_100,
+      flex: 1
+    },
+    table_tab_text:{
+      color: colors.tertiary_50,
+      ...Body_bold,
+      fontWeight: 'bold',
+      textAlign: 'center'
+    },
+    table_tab_text_chosen:{
+      color: colors.tertiary_100,
+      ...Body_bold,
+      fontWeight: 'bold',
+      textAlign: 'center'
     },
     table_head:{
         flexDirection: 'row',
@@ -168,7 +211,8 @@ const styles = StyleSheet.create({
     table_caption:{
         color: colors.text_white,
         ...Body_bold,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     table_body:{
         flex: 1,
@@ -193,12 +237,14 @@ const styles = StyleSheet.create({
         ...Body_Regular,
         textAlign: 'center'
     },
+    table_data_new:{
+      ...Body_Regular,
+      textAlign: 'center',
+      fontWeight: 'bold'
+    },
     iconContainer:{
         justifyContent: 'center',
     },
-    tab:{
-
-    }
 });
 
 export default AnnouncementTable;

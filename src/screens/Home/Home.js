@@ -2,7 +2,6 @@ import React, {useState}from "react";
 import {ScrollView, SafeAreaView, View, Text, Alert, StyleSheet, FlatList,Table, Row, Rows  } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
-import NavBar from '../../components/NavBar';
 import AnnouncementTable from "./Announcement";
 import colors from '../../assets/colors/colors';
 import Button from "../../components/Button";
@@ -59,7 +58,7 @@ const column = [
 
 const TableHeadItem = ({ item }) => <th>{item.heading}</th>;
 
-const Home = ({navigation}) =>{
+function Home({navigation}){
     const [selected, setSelected] = useState('');
     const getMarked = () => {
         let marked = {};
@@ -79,7 +78,7 @@ const Home = ({navigation}) =>{
               endingDay: i == 6,
               color: colors.text_white,
               text: '停電',
-              betweenStartAndEnd: i >= 2 && i <= 6
+              betweenStartAndEnd: i >= 2 && i <= 3
             }
           ];
           marked[`2024-05-${day}`] = {
