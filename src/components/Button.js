@@ -11,49 +11,99 @@ import Feather from 'react-native-vector-icons/Feather';
 
 
 const Button = (props) => {
-    const filledBgColor = props.focused ? colors.primary_100 : colors.primary_75;
-    const outlinedColor = filledBgColor;
-    const bgColor = props.filled ? filledBgColor : outlinedColor;
-    const textColor = props.filled ? colors.text_white : colors.primary_50;
+    // const filledBgColor = props.focused ? colors.primary_100 : colors.primary_75;
+    // const outlinedColor = filledBgColor;
+    // const bgColor = props.filled ? filledBgColor : outlinedColor;
+    // const textColor = props.filled ? colors.text_white : colors.primary_50;
     const IconComponent = props.iconLibrary || Feather;
-
+    const { primary_filled, tertiary_filled, tertiary_outlined, disabled, icon, title, onPress, style } = props;
     const getButtonStyle = ({ pressed }) => {
-        let backgroundColor;
-
-        if (props.disabled) {
-            backgroundColor = colors.tertiary_25; // Disabled state
-        } else if (pressed) {
-            backgroundColor = props.title ? colors.primary_100 : colors.primary_75; // Pressed state
-        } else {
-            backgroundColor = props.title ? bgColor: colors.primary_50; // Default state
+        let backgroundColor, borderColor, textColor;
+        if (props.primary_filled){
+            if (props.disabled) {
+                backgroundColor = colors.tertiary_25; // Disabled state
+                textColor = colors.tertiary_50;
+                borderColor = backgroundColor;
+            } else if (pressed) {
+                backgroundColor = props.title ? colors.primary_100 : colors.primary_75; // Pressed state
+                borderColor = backgroundColor;
+                textColor = colors.text_white;
+            } else {
+                backgroundColor = props.title ? colors.primary_75: colors.primary_50; // Default state
+                borderColor = backgroundColor;
+                textColor = colors.text_white;
+            }
+        }
+        else if (props.tertiary_filled){
+            if (props.disabled) {
+                backgroundColor = colors.tertiary_25; // Disabled state
+                borderColor = backgroundColor;
+                textColor = colors.tertiary_50;
+            } else if (pressed) {
+                backgroundColor = props.title ? colors.tertiary_100 : colors.tertiary_75; // Pressed state
+                borderColor = backgroundColor;
+                textColor = colors.text_white;
+            } else {
+                backgroundColor = props.title ? colors.tertiary_75: colors.primary_50; // Default state
+                borderColor = backgroundColor;
+                textColor = colors.text_white;
+            }
+        }
+        else if (props.tertiary_outlined){
+            if (props.disabled){
+                borderColor = colors.tertiary_25;  
+                textColor = borderColor;            
+            } else if (props.pressed) {
+                borderColor =  colors.tertiary_50; // Default state
+                textColor = borderColor;  
+            } else {
+                borderColor =  colors.tertiary_75;
+                textColor = borderColor;  
+            }
         }
 
         // Additional style for button with only icon
         const iconOnlyStyle = !props.title && props.iconOnlyStyle;
-
-        return [styles.button, { backgroundColor }, iconOnlyStyle, props.style];
+        
+        return { backgroundColor, borderColor, textColor };
+        //return [styles.button, { backgroundColor, borderColor, textColor }, iconOnlyStyle, props.style];
     };
 
-
+    const buttonStyle = [styles.button, props.tertiary_outlined ? styles.outlinedButton : null];
     return (
         <Pressable
             style={({ pressed }) => [
-                styles.button,
+                buttonStyle,
                 getButtonStyle({ pressed }),
                 props.style,
                 !props.title && props.iconOnlyStyle,
             ]}
-            onPress={props.onPress}
-            disabled={props.disabled}
+            onPress={onPress}
+            disabled={disabled}
         >
+            {props.icon && (
+                <Text style={{ paddingLeft: props.title ? 8 : 16, paddingRight: props.title ? 0 : 16 , paddingVertical: props.title ? 8 : 0}}> {/* 添加条件渲染，如果有标题，添加间距 */}
+                    {title}
+                    <IconComponent name={props.icon} style={styles.icon} />
+                </Text>
+            )}
+            {title && (
+                <Text style={{ paddingLeft: props.icon ? 0 : 16 , paddingRight: 16, color: getButtonStyle({ onPress }).textColor }}>
+                    {title}
+                </Text>
+            )}
+            {/* Render title if provided */}
+            {/* {title && (
+                <Text style={{ color: getButtonStyle({ onPress }).textColor }}>
+                {title}
+                </Text>
+            )} */}
             {/* Render icon if provided */}
-            {props.icon && <IconComponent name={props.icon} style={styles.icon} />}
-            {/* Render text if provided */}
-            {props.title && <Text style={[styles.buttonText, { color: textColor }]}>{props.title}</Text>}
+            {/* {props.icon && <IconComponent name={props.icon} size={20} style={styles.icon} />} */}
+
         </Pressable>
     );
 }
-
 
 const styles = StyleSheet.create({
     center: {
@@ -61,195 +111,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    button:{
-        paddingHorizontal: 16,
-        paddingVertical: 6,
+    button: {
+        paddingVertical: 8,
         borderRadius: 5,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     buttonText: {
-        ...Small_Body_Bold, // 使用文本样式
+        ...Small_Body_Bold,
+        fontWeight: 'bold'
     },
     icon: {
-        color: colors.text_white
+        color: colors.text_white,
+        alignItems: 'center',
+        justifyContent: 'center',
         // Add some spacing between icon and text
+    },
+    outlinedButton: {
+        borderWidth: 1,
     },
 })
 
 export default Button
-
-// import "./Button.css";
-// import { IconProperty1AddIsChosenFalse } from "../IconProperty1AddIsChosenFalse/IconProperty1AddIsChosenFalse.jsx";
-// export const Button = ({
-//   text = "true",
-//   type = "filled",
-//   color = "primary",
-//   state = "pressed",
-//   icon = "true",
-//   className,
-//   ...props
-// }) => {
-//   const variantsClassName =
-//     "text-" +
-//     text +
-//     " type-" +
-//     type +
-//     " color-" +
-//     color +
-//     " state-" +
-//     state +
-//     " icon-" +
-//     icon;
-
-//   return (
-//     <div className={"button " + className + " " + variantsClassName}>
-//       {type === "filled" &&
-//         color === "tertiary" &&
-//         state === "default" &&
-//         icon === "true" &&
-//         text === "true" && (
-//           <>
-//             <div className="frame-427319037">
-//               <IconProperty1AddIsChosenFalse
-//                 property1="add"
-//                 className="icon-instance"
-//               ></IconProperty1AddIsChosenFalse>
-//               <div className="div">{text} </div>
-//             </div>
-//           </>
-//         )}
-//       {text === "false" && (
-//         <>
-//           <IconProperty1AddIsChosenFalse
-//             property1="add"
-//             className="icon-instance"
-//           ></IconProperty1AddIsChosenFalse>
-//         </>
-//       )}
-//       {(icon === "false" || text === "true-long" || text === "true-short") && (
-//         <>
-//           <div className="div">{text} </div>
-//         </>
-//       )}
-//     </div>
-//   );
-// };
-
-
-
-// const Button = ({ text, onPress }) => {
-//     return (
-//       <TouchableOpacity onPress={onPress}>
-//         <View style={styles.btnContainerStyle}>
-//           <Text style={styles.btnTextStyle}> {text} </Text>
-//         </View>
-//       </TouchableOpacity>
-//     )
-//   }
-
-//   const styles = StyleSheet.create({
-//     btnContainerStyle: {
-//         backgroundColor: colors.primary_100,
-//         paddingVertical: 8,
-//         width: width / 1.3,
-//         borderRadius: 5,
-//         paddingHorizontal: 16,
-//         paddingVertical: 6,
-//         borderRadius: 5,
-//         alignItems: 'center',
-//         justifyContent: 'center'
-//     },
-//     btnTextStyle: {
-//       color: '#ffffff',
-//       fontSize: 16,
-//       textTransform: 'uppercase',
-//       textAlign: 'center',
-//       fontFamily: 'Quicksand-Medium'
-//     }
-//   })
-
-// const styles = StyleSheet.create({
-//     btnContainerStyle: {
-//       backgroundColor: '#3F51B5',
-//       paddingVertical: 8,
-//       width: width / 1.3,
-//       borderRadius: 5
-//     },
-//     btnTextStyle: {
-//       color: '#ffffff',
-//       fontSize: 16,
-//       textTransform: 'uppercase',
-//       textAlign: 'center',
-//       fontFamily: 'NotoSansTC'
-//     }
-//   })
-
-
-
-
-// const Button = ({ title, onPress, type = 'filled', status = 'default' }) => {
-//   const getButtonStyle = () => {
-//     let buttonStyle = {};
-
-//     // 根据不同的 type 和 status 设置按钮样式
-//     switch (type) {
-//       case 'filled':
-//         buttonStyle.backgroundColor = status === 'default' ? Colors.primary_75 : status === 'pressed' ? Colors.primary_100 : 'gray';
-//         buttonStyle.borderColor = 'transparent';
-//         buttonStyle.borderWidth = 0;
-//         break;
-//       case 'outlined':
-//         buttonStyle.backgroundColor = 'transparent';
-//         buttonStyle.borderColor = status === 'default' ? 'blue' : status === 'hover' ? 'lightblue' : 'gray';
-//         buttonStyle.borderWidth = 1;
-//         break;
-//       default:
-//         break;
-//     }
-
-//     return buttonStyle;
-//   };
-
-//   const getButtonTextStyle = () => {
-//     let textStyle = {
-//       color: status === 'disabled' ? 'gray' : 'white',
-//       fontSize: 16,
-//       fontWeight: 'bold',
-//     };
-
-//     return textStyle;
-//   };
-
-//   const handlePress = () => {
-//     if (status !== 'disabled' && onPress) {
-//       onPress();
-//     }
-//   };
-
-//   return (
-//     <TouchableOpacity
-//       style={[styles.button, getButtonStyle()]}
-//       onPress={handlePress}
-//       disabled={status === 'disabled'}
-//     >
-//       <Text style={[styles.buttonText, getButtonTextStyle()]}>{title}</Text>
-//     </TouchableOpacity>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   button: {
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     borderRadius: 5,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   buttonText: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-// });
-
-// export default Button;

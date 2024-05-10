@@ -18,8 +18,8 @@ const colors = {
     text_black: '#292929',
     text_white: '#FFFFFF',
     notification: '#F53120',
-    green: '#D6E2D7',
-
+    sendDefault: '#D6E2D7',
+    sendPressed: '#C6D2C7',
 }
 
 export default colors;

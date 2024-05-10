@@ -46,9 +46,11 @@ import Services from './src/screens/Services/index.js';
 import Notification from './src/screens/Notification/index.js';
 import My from './src/screens/My/index.js';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
-import AnnouncementDetail_1 from './src/screens/Home/AnnouncementDetail/AnnouncementDetail_1.js'
+import AnnouncementDetail from './src/screens/Home/AnnouncementDetail/AnnouncementDetail.js'
 import icoMoonConfig from './src/assets/icons/selection.json'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Reservation from './src/screens/Services/Reservation/index.js';
+import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom/index.js';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
 const HomeName = '主頁';
@@ -67,6 +69,9 @@ function HomeStackNavigator(){
   return(
     <Stack.Navigator
         initialRouteName = 'Home'
+        screenOptions={{
+          header: (props) => <NavBar/>,
+        }}
       >
         <Stack.Screen
           name = "Home"
@@ -75,7 +80,28 @@ function HomeStackNavigator(){
             headerShown:false
           }}
         />
-        <Stack.Screen name="AnnouncementDetail_1" component={AnnouncementDetail_1} options={{ headerShown: false }} />
+        <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetail} options={{ headerShown: false }} />
+      </Stack.Navigator>
+  )
+}
+
+function ServicesStackNavigator(){
+  return(
+    <Stack.Navigator
+        initialRouteName = 'Services'
+        screenOptions={{
+          header: (props) => <NavBar/>,
+        }}
+      >
+        <Stack.Screen
+          name = "Services"
+          component = {Services}
+          options={{
+            headerShown:false
+          }}
+        />
+        <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: false }} />
+        <Stack.Screen name="MeetingRoom" component={MeetingRoom} options={{headerShown: false}}/>
         
       </Stack.Navigator>
   )
@@ -110,6 +136,7 @@ const App = () => {
 
 function NavBar(){
   return (
+    
       <Tab.Navigator
           initialRouteName={HomeName}
           screenOptions={({ route }) => ({
@@ -145,7 +172,7 @@ function NavBar(){
 
           })}>
               <Tab.Screen name={HomeName} component={HomeStackNavigator} />
-              <Tab.Screen name={ServicesName} component={Services} />
+              <Tab.Screen name={ServicesName} component={ServicesStackNavigator} />
               <Tab.Screen name={NotificationName} component={Notification} />
               <Tab.Screen name={MyName} component={My} />
     </Tab.Navigator>

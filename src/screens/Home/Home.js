@@ -7,6 +7,7 @@ import colors from '../../assets/colors/colors';
 import Button from "../../components/Button";
 import {Agenda, Calendar, LocaleConfig} from 'react-native-calendars';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -78,7 +79,7 @@ function Home({navigation}){
               endingDay: i == 6,
               color: colors.text_white,
               text: '停電',
-              betweenStartAndEnd: i >= 2 && i <= 3
+              betweenStartAndEnd: i >= 2 && i <= 6
             }
           ];
           marked[`2024-05-${day}`] = {
@@ -106,14 +107,14 @@ function Home({navigation}){
                         社區公告
                     </Text>
                 </View>
-                <View style={{alignItems: 'center', marginHorizontal: 20}}>
+                <View style={{alignItems: 'center', marginHorizontal: 20, justifyContent: 'center'}}>
                     <AnnouncementTable announcements={announcements} />
                     <View style={styles.pagination_container}>
-                        <Button iconLibrary={Feather} icon="chevron-left" onPress={() => {}} />
+                    <Button primary_filled={true} iconLibrary={AntDesign} icon="left"onPress={() => {}} />
                         <View style={styles.numberContainer}>                        
-                            <Text style={{Title, color: colors.text_black, textAlign: 'left'}}> 1 </Text>
+                            <Text style={{Title, color: colors.text_black, textAlign: 'right'}}> 1 </Text>
                         </View>
-                        <Button iconLibrary={Feather} icon="chevron-right"onPress={() => {}} />
+                        <Button primary_filled={true} iconLibrary={AntDesign} icon="right"onPress={() => {}} />
                     </View>
                 </View>
                 <View style={{paddingHorizontal: 20, paddingBottom: 16}}>
@@ -185,10 +186,11 @@ const styles = StyleSheet.create({
     pagination_container: {
         flexDirection: 'row', // Arrange items horizontally
         alignItems: 'center', // Center items vertically
-        justifyContent: 'space-between', // Space evenly between items
+        justifyContent: 'center', // Space evenly between items
         width: 170,
         paddingTop: 20,
-        gap: 8
+        gap: 8,
+        width: 170
     },
     numberContainer: {
         backgroundColor: colors.text_white,
@@ -206,4 +208,6 @@ const styles = StyleSheet.create({
 });
 
 export default Home
+
+
 

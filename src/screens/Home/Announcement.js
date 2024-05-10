@@ -44,7 +44,7 @@ const AnnouncementTable = props => {
   const handlePress = (announcement) => {
     // Handle navigation to the announcement details screen
     //console.log("Navigating to announcement:", announcement.title);
-    navigation.navigate("AnnouncementDetail_1")
+    navigation.navigate("AnnouncementDetail")
 
   };
 
@@ -83,7 +83,7 @@ const AnnouncementTable = props => {
 
         {/*Table body */}
         {/*Row 1 */}
-      <View style = {styles.table_body}>
+      <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data_new}>2024-04-01</Text>
         </View>
@@ -93,12 +93,12 @@ const AnnouncementTable = props => {
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data_new}>最新消息</Text>
         </View>
-        <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
+        <View style={styles.iconContainer} onPress={handlePress}>
           <Feather name="chevron-right" size={18} color="black" />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
 {/*Row 2 */}
-      <View style = {styles.table_body}>
+<TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
@@ -108,11 +108,11 @@ const AnnouncementTable = props => {
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
-        <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
+        <View style={styles.iconContainer} onPress={handlePress}>
           <Feather name="chevron-right" size={18} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View style = {styles.table_body}>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
@@ -122,25 +122,11 @@ const AnnouncementTable = props => {
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
-        <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
+        <View style={styles.iconContainer} onPress={handlePress}>
           <Feather name="chevron-right" size={18} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View style = {styles.table_body}>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
-            <Text style={styles.table_data}>2024-04-01</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
-            <Text style={styles.table_data}>水塔清洗公告</Text>
-        </View>
-        <View style={{minWidth: 90, flex: 1, paddingHorizontal: 8}}>
-            <Text style={styles.table_data}>最新消息</Text>
-        </View>
-        <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
-          <Feather name="chevron-right" size={18} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View style = {styles.table_body_last}>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
@@ -150,10 +136,24 @@ const AnnouncementTable = props => {
         <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
-        <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
+        <View style={styles.iconContainer} onPress={handlePress}>
           <Feather name="chevron-right" size={18} color="black" />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={1} style = {styles.table_body_last} onPress={handlePress}>
+        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+            <Text style={styles.table_data}>2024-04-01</Text>
+        </View>
+        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
+            <Text style={styles.table_data}>水塔清洗公告</Text>
+        </View>
+        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+            <Text style={styles.table_data}>最新消息</Text>
+        </View>
+        <View style={styles.iconContainer} onPress={handlePress}>
+          <Feather name="chevron-right" size={18} color="black" />
+        </View>
+      </TouchableOpacity>
       
       
     </View>
@@ -231,7 +231,8 @@ const styles = StyleSheet.create({
         paddingHorizontal:8,
         justifyContent: 'center',
         borderColor: 'lightgray',
-        borderBottomLeftRadius: 10
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius:10
     },
     table_data:{
         ...Body_Regular,
@@ -248,3 +249,69 @@ const styles = StyleSheet.create({
 });
 
 export default AnnouncementTable;
+
+
+// import React from 'react';
+// import { Text, View } from 'react-native';
+
+// import createServer from 'miragejs';
+
+// if (window.mirageServer) {
+//   window.mirageServer.shutdown();
+// }
+
+// window.mirageServer = createServer({
+//   routes() {
+//     this.get('/api/announcements', () => {
+//       return {
+//         announcements: [
+//           {
+//             id: 1,
+//             name: '水塔清洗',
+//             date: '2024-04-10',
+//             type: '最新消息',
+//           },
+//           {
+//             id: 2,
+//             name: '電梯五月保養時間',
+//             date: '2024-04-08',
+//             type: '最新消息',
+//           },
+//           {
+//             id: 3,
+//             name: '社區大會會議紀錄',
+//             date: '2024-04-05',
+//             type: '委員會相關',
+//           },
+//           {
+//             id: 4,
+//             name: '停電通知',
+//             date: '2024-04-02',
+//             type: '最新消息',
+//           },
+//         ],
+//       };
+//     });
+//   },
+// });
+
+// export default function Announcement() {
+//   let [announcements, setAnnouncements] = React.useState([]);
+
+//   React.useEffect(() => {
+//     fetch('/api/announcements')
+//       .then(res => res.json())
+//       .then(json => setAnnouncements(json.announcements));
+//   }, []);
+
+//   return (
+//     <View>
+//       {announcements.map(announcement => (
+//         <Text key={announcement.id}>
+//           {announcement.name} ({announcement.date}) {announcement.type}
+//         </Text>
+//       ))}
+//     </View>
+//   );
+// }
+
