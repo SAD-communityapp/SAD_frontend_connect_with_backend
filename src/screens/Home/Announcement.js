@@ -68,29 +68,29 @@ const AnnouncementTable = props => {
 
       {/*Table head */}
       <View style = {styles.table_head}>
-        <View style={{minWidth: 90, flex: 1, justifyContent: 'center', paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3, justifyContent: 'center', paddingHorizontal: 8}}>
             <Text style={styles.table_caption}>日期</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1, justifyContent: 'center', paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 2, justifyContent: 'center', paddingHorizontal: 8}}>
             <Text style={styles.table_caption}>標題</Text>
         </View>
-        <View style={{minWidth: 90, flex: 1, justifyContent: 'center', paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3, justifyContent: 'center', paddingHorizontal: 8}}>
             <Text style={styles.table_caption}>類別</Text>
         </View>
-        <View style={{minWidth: 18, flex: 1, justifyContent: 'center', paddingHorizontal: 8}}>
+        <View style={{Width: 18, flex: 1, justifyContent: 'center', paddingHorizontal: 8}}>
         </View>
       </View>
 
         {/*Table body */}
         {/*Row 1 */}
       <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data_new}>2024-04-01</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 2,paddingHorizontal: 8}}>
             <Text style={styles.table_data_new}>水塔清洗公告</Text>
         </View>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data_new}>最新消息</Text>
         </View>
         <View style={styles.iconContainer} onPress={handlePress}>
@@ -99,13 +99,13 @@ const AnnouncementTable = props => {
       </TouchableOpacity>
 {/*Row 2 */}
 <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 2,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>水塔清洗公告</Text>
         </View>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
         <View style={styles.iconContainer} onPress={handlePress}>
@@ -113,13 +113,13 @@ const AnnouncementTable = props => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 2,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>水塔清洗公告</Text>
         </View>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
         <View style={styles.iconContainer} onPress={handlePress}>
@@ -127,13 +127,13 @@ const AnnouncementTable = props => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 2,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>水塔清洗公告</Text>
         </View>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
         <View style={styles.iconContainer} onPress={handlePress}>
@@ -141,13 +141,13 @@ const AnnouncementTable = props => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={1} style = {styles.table_body_last} onPress={handlePress}>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>
-        <View style={{minWidth: 142, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 2,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>水塔清洗公告</Text>
         </View>
-        <View style={{minWidth: 90, flex: 1,paddingHorizontal: 8}}>
+        <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>最新消息</Text>
         </View>
         <View style={styles.iconContainer} onPress={handlePress}>

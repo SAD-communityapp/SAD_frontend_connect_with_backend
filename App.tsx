@@ -100,7 +100,7 @@ function ServicesStackNavigator(){
             headerShown:false
           }}
         />
-        <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: false }} />
+        <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: false }}/>
         <Stack.Screen name="MeetingRoom" component={MeetingRoom} options={{headerShown: false}}/>
         
       </Stack.Navigator>
