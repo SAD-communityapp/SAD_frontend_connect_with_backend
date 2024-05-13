@@ -1,9 +1,12 @@
-import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native'
-import React, { useState  } from 'react'
+import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity,  } from 'react-native'
+import React, { useState, useEffect  } from 'react'
 import colors from '../../../../assets/colors/colors'
 import { Body_Regular, H3, Small_Body_Regular, Title } from '../../../../assets/TextStyles'
 import Header from '../../../../components/Header'
 import Button from '../../../../components/Button'
+import Entypo from 'react-native-vector-icons/Entypo'
+import Reservation from '../Reservation'
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -54,7 +57,7 @@ const Calendar = () => {
             <View style={{ width: 20, height: 20, backgroundColor: colors.primary_100, borderRadius: 5 }}></View>
             <Text style={{...Small_Body_Regular}}>已選</Text>
         </View>
-        {selectedDate && <TimeSlot selectedDate={selectedDate} />}
+        {selectedDate && <TimeSlot selectedDate={selectedDate}/>}
     </View>
 
 
@@ -67,53 +70,121 @@ const TimeSlot = ({ selectedDate }) => {
     const timeSlots = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
     const rows = [];
     const itemsPerRow = 4;
-    const [selectedTime, setSelectedTime] = useState(null);
+    const [selectedTime, setSelectedTimes] = useState([]);
+    
     for (let i = 0; i < timeSlots.length; i += itemsPerRow) {
         rows.push(timeSlots.slice(i, i + itemsPerRow));
     }
+
+    useEffect(() => {
+        setSelectedTimes([]);
+    }, [selectedDate]);
+
+    const handleRemoveTime = (indexToRemove) => {
+        setSelectedTimes(prevSelectedTime => prevSelectedTime.filter((_, index) => index !== indexToRemove));
+    }
+    
+const navigation = useNavigation()
+
+    const handleReservation  = () =>{
+        navigation.navigate('Reservation', "records");
+    }
+
+    // const handleReservation = async () => {
+    //     // 向后端发送预订信息的逻辑
+    //     try {
+    //         // 发送预订信息的请求
+    //         // await sendReservationToBackend(selectedTime, selectedDate);
+            
+    //         // 预订成功后导航到 Reservation 的 record tab
+    //         navigation.navigate('Reservation', { screen: 'Record' });
+    //     } catch (error) {
+    //         console.error('Error sending reservation:', error);
+    //     }
+    // };
+
 
     const handleTimePress = (slot) => {
         const time = new Date(selectedDate);
         const [hour, minute] = slot.split(':');
         time.setHours(parseInt(hour), parseInt(minute), 0, 0);
-        setSelectedTime(time);
+
+        // 检查选中的时间是否已经存在于数组中
+        const index = selectedTime.findIndex(selected => selected.getTime() === time.getTime());
+
+        // 如果已经选中了这个时间，从选中列表中移除
+        if (index !== -1) {
+            setSelectedTimes(prevSelectedTime => prevSelectedTime.filter((_, i) => i !== index));
+        } else {
+            // 否则将时间添加到选中列表中
+            setSelectedTimes(prevSelectedTime => [...prevSelectedTime, time]);
+        }
     };
 
     return (
         <View>
-            <View style={{gap: 16, marginBottom: 16}}>
+            <View style={{ gap: 16, marginBottom: 16 }}>
                 {rows.map((row, index) => (
                     <View key={index} style={styles.rowContainer}>
-                        {row.map((slot, idx) => (
-                            <TouchableOpacity
-                                activeOpacity={1}
-                                key={idx}
-                                style={[
-                                    styles.timeSlotButton,
-                                    selectedTime === slot && styles.selectedTimeButton,
-                                    selectedTime && selectedTime.getTime() === new Date(selectedDate).getTime() ? styles.selectedTimeButton : styles.unSelectedTimeButton 
-                                ]}
-                                onPress={() => handleTimePress(slot)}
-                            >
-                                <Text style={[
-                                    selectedTime && selectedTime.getTime() === new Date(selectedDate).getTime() ? styles.selectedTime : styles.unSelectedTime
-                                ]}>{slot}</Text>
-                            </TouchableOpacity>
-                        ))}
+                        {row.map((slot, idx) => {
+                            const time = new Date(selectedDate);
+                            const [hour, minute] = slot.split(':');
+                            time.setHours(parseInt(hour), parseInt(minute), 0, 0);
+                            const isSelected = selectedTime.some(selected => selected.getTime() === time.getTime());
+
+                            return (
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    key={idx}
+                                    style={[
+                                        isSelected ? styles.selectedTimeButton : styles.unSelectedTimeButton
+                                    ]}
+                                    onPress={() => handleTimePress(slot)}
+                                >
+                                    <Text style={[isSelected ? styles.selectedTime : styles.unSelectedTime]}>
+                                        {slot}
+                                    </Text>
+                                </TouchableOpacity>
+                            );
+                        })}
                     </View>
                 ))}
             </View>
             <View style={styles.separator}></View>
-            <Text style = {styles.titleText}>已選時段</Text>
-        </View>
-        
+            <Text style={styles.titleText}>已選時段</Text>
+            <Text>{selectedDate.toLocaleDateString([], { month: '2-digit', day: 'numeric' })}</Text>
+            <View style={{flexDirection: 'row', gap: 16, marginTop: 16}}>
+                
+                {selectedTime.map((time, index) => (
+                    <View style={styles.timeContainer}  key={index}>
+                        <Text style= {{...Small_Body_Regular, color: colors.primary_100}}key={index}>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} ~{' '}
+                        {(() => {
+                            const nextTime = new Date(time);
+                            nextTime.setHours(nextTime.getHours() + 1);
+                            return nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                        })()}</Text>
+                        <Entypo name={"cross"} style={{color: colors.primary_100}}  onPress={() => handleRemoveTime(index)} />
+                    </View>
+                ))}
+            </View>
+            <Button
+                title = "確定預約"
+                primary_filled={true} 
+                onPress={handleReservation}
+                disabled={selectedTime.length === 0}
+                style={{alignSelf: 'center'}}
+                
+                >
+            </Button>
 
-    );
+        </View>
     
+    );
 };
 
 
 const MeetingRoomReservation = () => {
+    
       
     return (
         <View style={{backgroundColor: colors.background_white, height: '100%'}}>
@@ -299,6 +370,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
+    timeContainer:{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around', // 控制水平方向上的对齐方式
+        alignItems: 'center', // 控制垂直方向上的对齐方式
+        borderRadius: 10,
+        borderColor: colors.primary_100,
+        borderWidth: 1,
+        gap: 8,
+        maxWidth: 120,
+        minHeight: 32,
+        paddingHorizontal: 8
+
+    }
 })
 
 export default MeetingRoom;

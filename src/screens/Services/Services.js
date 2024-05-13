@@ -21,7 +21,12 @@ const Services = () => {
         //console.log("Navigating to announcement:", announcement.title);
         navigation.navigate("Reservation")
     
-      };
+    };
+
+    const handleManagementFee = () => {
+        navigation.navigate("ManagementFee")
+    }
+    
 
 
 
@@ -60,7 +65,7 @@ const Services = () => {
                 </TouchableOpacity> 
             </View>
             <View style={styles.container}>
-                <TouchableOpacity activeOpacity={1} style={styles.serviceItem}>     
+                <TouchableOpacity activeOpacity={1} style={styles.serviceItem} onPress={handleManagementFee}>     
                     <MaterialIcons name="payment" size={70} color={colors.primary_75}/>
                     <Text style={styles.textStyle}>繳管理費</Text>
                 </TouchableOpacity> 

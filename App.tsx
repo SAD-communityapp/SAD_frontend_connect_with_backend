@@ -51,6 +51,8 @@ import icoMoonConfig from './src/assets/icons/selection.json'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Reservation from './src/screens/Services/Reservation/index.js';
 import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom/index.js';
+import ManagementFee from './src/screens/Services/ManagementFee/index.js';
+import Payment from './src/screens/Services/ManagementFee/Payment.js'
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
 const HomeName = '主頁';
@@ -102,7 +104,9 @@ function ServicesStackNavigator(){
         />
         <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: false }}/>
         <Stack.Screen name="MeetingRoom" component={MeetingRoom} options={{headerShown: false}}/>
-        
+        <Stack.Screen name="ManagementFee" component={ManagementFee} options={{headerShown: false}}/>
+        <Stack.Screen name="Payment" component={Payment} options={{headerShown: false}}/>
+
       </Stack.Navigator>
   )
 }

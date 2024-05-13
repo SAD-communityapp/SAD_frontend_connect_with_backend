@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import colors from '../../../../assets/colors/colors';
+import colors from '../assets/colors/colors';
 // const TabBar = ({ activeTab, handleTabChange }) => {
 //   return (
 //     <View style={styles.tabContainer}>
@@ -21,10 +21,8 @@ import colors from '../../../../assets/colors/colors';
 //     </View>
 //   );
 // }
-
 const TabBar = (props) => {
-    const { activeTitle, recordTitle} = props;
-
+    const { activeTitle, recordTitle, activeTab, handleTabChange } = props;
     return (
       <View style={styles.tabContainer}>
         <TouchableOpacity

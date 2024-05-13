@@ -3,6 +3,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import Button from "../../components/Button";
 import colors from '../../assets/colors/colors';
 import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
+// import login from "@/lib/login";
+// import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
     Dimensions,
