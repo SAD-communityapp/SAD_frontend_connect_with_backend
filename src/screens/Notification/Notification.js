@@ -51,27 +51,25 @@ const Notification = () => {
     const itemsPerPage = 13;
     const totalPages = Math.ceil(notifications.length / itemsPerPage);
 
-    const handleExpand = (id) => {
-        setViewedNotifications(prevViewedNotifications => {
-            const updatedViewedNotifications = new Set(prevViewedNotifications);
-            updatedViewedNotifications.add(id);
-            return updatedViewedNotifications;
-        });
-    
-        setNotifications(prevNotifications => 
-            prevNotifications.map(notification => 
-                notification.id === id ? { ...notification, hasDot: false } : notification
-            )
-        );
-    };
-
     const NotificationItem = ({ id, title, date, hasDot, details, onExpand, isLast }) => {
         const [isOpen, setIsOpen] = useState(false);
     
         const toggleItem = () => {
             setIsOpen(!isOpen);
-            if (!isOpen && hasDot) {
-                onExpand(id);
+            onExpand(id);
+            if (isOpen && hasDot) {
+
+                setNotifications(prevNotifications => 
+                    prevNotifications.map(notification => 
+                        notification.id === id ? { ...notification, hasDot: false } : notification
+                    )
+                );
+                
+                setViewedNotifications(prevViewedNotifications => {
+                    const updatedViewedNotifications = new Set(prevViewedNotifications);
+                    updatedViewedNotifications.add(id);
+                    return updatedViewedNotifications;
+                });
             }
         };
     
