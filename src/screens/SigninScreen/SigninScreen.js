@@ -35,7 +35,7 @@ const SigninScreen = ({navigation}) =>{
     };
 
     const handleSignIn = () =>{
-        navigation.navigate("MainApp")
+        navigation.navigate("MainAppUser")
         setUsername("");
         setPassword("");
         
@@ -119,13 +119,6 @@ const SigninScreen = ({navigation}) =>{
                     <Button
                         title = "登入"
                         primary_filled={true} 
-                        // style= {{
-                        //     height: 40,
-                        //     width: 112,
-                        //     marginTop: 24,
-                        //     width: 204,
-                            
-                        // }}
                         onPress={handleSignIn}
                         disabled={!username || !password}
                     >

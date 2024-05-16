@@ -13,16 +13,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import SigninScreen from './src/screens/SigninScreen/SigninScreen.js';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './src/screens/Home_User/Home.js';
-import Services from './src/screens/Services/Services.js';
-import Notification from './src/screens/Notification_User/Notification.js';
-import My from './src/screens/My_User/My.js';
+import Home_User from './src/screens/Home_User/Home.js';
+import Services_User from './src/screens/Services_User/Services.js';
+import Notification_User from './src/screens/Notification_User/Notification.js';
+import My_User from './src/screens/My_User/My.js';
 import AnnouncementDetail from './src/screens/Home_User/AnnouncementDetail.js'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Reservation from './src/screens/Services/Reservation/Reservation.js';
-import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom.js';
-import ManagementFee from './src/screens/Services/ManagementFee/ManagementFee.js';
-import PaymentDetail from './src/screens/Services/ManagementFee/PaymentDetail.js';
+import Reservation_User from './src/screens/Services_User/Reservation/Reservation.js';
+import MeetingRoom_User from './src/screens/Services_User/Reservation/MeetingRoom.js';
+import ManagementFee_User from './src/screens/Services_User/ManagementFee/ManagementFee.js';
+import PaymentDetail_User from './src/screens/Services_User/ManagementFee/PaymentDetail.js';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
 const HomeName = '主頁';
@@ -30,55 +30,6 @@ const ServicesName = '服務';
 const NotificationName = '通知';
 const MyName = '個人';
 
-
-// type SectionProps = PropsWithChildren<{
-//   title: string;
-// }>;
-
-
-function HomeStackNavigator(){
-  return(
-    <Stack.Navigator
-        initialRouteName = 'Home'
-        screenOptions={{
-          header: (props) => <NavBar/>,
-        }}
-      >
-        <Stack.Screen
-          name = "Home"
-          component = {Home}
-          options={{
-            headerShown:false
-          }}
-        />
-        <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetail} options={{ headerShown: false }} />
-      </Stack.Navigator>
-  )
-}
-
-function ServicesStackNavigator(){
-  return(
-    <Stack.Navigator
-        initialRouteName = 'Services'
-        screenOptions={{
-          header: (props) => <NavBar/>,
-        }}
-      >
-        <Stack.Screen
-          name = "Services"
-          component = {Services}
-          options={{
-            headerShown:false
-          }}
-        />
-        <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: false }}/>
-        <Stack.Screen name="MeetingRoom" component={MeetingRoom} options={{headerShown: false}}/>
-        <Stack.Screen name="ManagementFee" component={ManagementFee} options={{headerShown: false}}/>
-        <Stack.Screen name="PaymentDetail" component={PaymentDetail} options={{headerShown: false}}/>
-
-      </Stack.Navigator>
-  )
-}
 
 function SigninSignoutStackNavigator(){
   return(
@@ -92,7 +43,7 @@ function SigninSignoutStackNavigator(){
             headerShown:false
           }}
         />
-        <Stack.Screen name="MainApp" component={MainApp} options={{ headerShown: false }} />
+        <Stack.Screen name="MainAppUser" component={MainAppUser} options={{ headerShown: false }} />
         
       </Stack.Navigator>
   )
@@ -107,7 +58,52 @@ const App = () => {
   );
 }
 
-function NavBar(){
+//User
+function HomeStackNavigator_User(){
+  return(
+    <Stack.Navigator
+        initialRouteName = 'Home'
+        screenOptions={{
+          header: (props) => <NavBarUser/>,
+        }}
+      >
+        <Stack.Screen
+          name = "Home"
+          component = {Home_User}
+          options={{
+            headerShown:false
+          }}
+        />
+        <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetail} options={{ headerShown: false }} />
+      </Stack.Navigator>
+  )
+}
+
+function ServicesStackNavigator_User(){
+  return(
+    <Stack.Navigator
+        initialRouteName = 'Services'
+        screenOptions={{
+          header: (props) => <NavBarUser/>,
+        }}
+      >
+        <Stack.Screen
+          name = "Services"
+          component = {Services_User}
+          options={{
+            headerShown:false
+          }}
+        />
+        <Stack.Screen name="Reservation" component={Reservation_User} options={{ headerShown: false }}/>
+        <Stack.Screen name="MeetingRoom" component={MeetingRoom_User} options={{headerShown: false}}/>
+        <Stack.Screen name="ManagementFee" component={ManagementFee_User} options={{headerShown: false}}/>
+        <Stack.Screen name="PaymentDetail" component={PaymentDetail_User} options={{headerShown: false}}/>
+
+      </Stack.Navigator>
+  )
+}
+
+function NavBarUser(){
   return (
     
       <Tab.Navigator
@@ -144,19 +140,63 @@ function NavBar(){
               },
 
           })}>
-              <Tab.Screen name={HomeName} component={HomeStackNavigator} />
-              <Tab.Screen name={ServicesName} component={ServicesStackNavigator} />
-              <Tab.Screen name={NotificationName} component={Notification} />
-              <Tab.Screen name={MyName} component={My} />
+              <Tab.Screen name={HomeName} component={HomeStackNavigator_User} />
+              <Tab.Screen name={ServicesName} component={ServicesStackNavigator_User} />
+              <Tab.Screen name={NotificationName} component={Notification_User} />
+              <Tab.Screen name={MyName} component={My_User} />
     </Tab.Navigator>
   );
 }
 
-const MainApp = () => {
+function NavBarAdmin(){
   return (
-    <NavBar/>
+    
+      <Tab.Navigator
+          initialRouteName={HomeName}
+          screenOptions={({ route }) => ({
+              headerShown: false,
+              tabBarActiveTintColor: colors.primary_100,
+              tabBarInactiveTintColor: colors.text_black,
+              tabBarShowLabel: true,
+              tabBarStyle: 
+              {
+                  height: 107,
+                  paddingBottom: 28,
+                  paddingTop: 24,
+                  paddingHorizontal: 0, //this brings them further together and produces the desired prensentation.
+                  alignContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: colors.text_white,
+              },
+
+              tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
+                  let rn = route.name;
+
+                  if (rn == HomeName) {
+                      return focused ? <Ionicons name={'home'} size={28} color={colors.primary_100} /> : <Ionicons name={'home-outline'} size={28} color={colors.text_black} />
+                  } else if (rn == ServicesName) {
+                      return focused ? <AntDesign name="appstore1" size={28} color={colors.primary_100} /> : <AntDesign name={'appstore-o'} size={28} color={colors.text_black} />
+                  } else if (rn == NotificationName) {
+                      return focused ? <Octicons name="bell-fill" size={28} color={colors.primary_100} /> : <Octicons name={'bell'} size={28} color={colors.text_black} />
+                  } else {
+                      return focused ? <Octicons name="person-fill" size={28} color={colors.primary_100} /> : <Octicons name={'person'} size={28} color={colors.text_black} />
+                  }
+              },
+
+          })}>
+              <Tab.Screen name={HomeName} component={HomeStackNavigator_User} />
+              <Tab.Screen name={ServicesName} component={ServicesStackNavigator_User} />
+              <Tab.Screen name={NotificationName} component={Notification_User} />
+              <Tab.Screen name={MyName} component={My_User} />
+    </Tab.Navigator>
+  );
+}
+
+const MainAppUser = () => {
+  return (
+    <NavBarUser/>
   );
 };
-
 
 export default App;
