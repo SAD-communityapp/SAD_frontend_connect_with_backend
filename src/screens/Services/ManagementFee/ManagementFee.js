@@ -1,8 +1,8 @@
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image} from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, Modal,TouchableWithoutFeedback, FlatList } from 'react-native'
 import React, { useState , useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../../assets/colors/colors';
-import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../../assets/TextStyles';
+import { H3 , H4, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../../assets/TextStyles';
 // import DataTable from "react-data-table-component";
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,72 +13,71 @@ import Header from '../../../components/Header';
 
 
 const UnPaymentItem = (props) => {
-    const navigation = useNavigation()
-
-    const HandlePayment = () => {
-
-        navigation.navigate("Payment")
-    }
+    const navigation = useNavigation();
     
-    const { address, deadline, amount, title} = props;
-    return (
-        <TouchableOpacity style={styles.container} activeOpacity={1} onPress={HandlePayment}>
-            <View style={styles.textContainer}>
-                <Text style={{...Title, fontWeight: 'bold', color: colors.text_black}}>
-                    {title}
-                </Text>
-                <Text style={{...Title, fontWeight: 'bold', color: colors.notification}}>
-                    未繳交
-                </Text>
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    住址
-                </Text>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    {address}
-                </Text>
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    繳費期限
-                </Text>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    {deadline}
-                </Text>
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    總計費用
-                </Text>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    {amount}
-                </Text>
-            </View>
-            <View style={{ flexDirection: 'row-reverse' }}>
-                <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 16}}>
-                    {/* <Text>
-                        前往繳交
-                    </Text> */}
-                    <Feather name = "arrow-right-circle" size={28} color={colors.primary_100}/>
-                    
-                </View>
+    const handlePayment = () => {
+        setModalVisible(true);
+    }
 
-            </View>
-            
-      </TouchableOpacity>
+
+
+
+
+    const { address, deadline, amount, title, setModalVisible } = props;
+    return (
+        <View>
+            <TouchableOpacity style={styles.container} activeOpacity={1} onPress={handlePayment}>
+                <View style={styles.textContainer}>
+                    <Text style={{...Title, fontWeight: 'bold', color: colors.text_black}}>
+                        {title}
+                    </Text>
+                    <Text style={{...Title, fontWeight: 'bold', color: colors.notification}}>
+                        未繳交
+                    </Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={{...Body_Regular, color: colors.text_black}}>
+                        住址
+                    </Text>
+                    <Text style={{...Body_Regular, color: colors.text_black}}>
+                        {address}
+                    </Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={{...Body_Regular, color: colors.text_black}}>
+                        繳費期限
+                    </Text>
+                    <Text style={{...Body_Regular, color: colors.text_black}}>
+                        {deadline}
+                    </Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={{...Body_Regular, color: colors.text_black}}>
+                        總計費用
+                    </Text>
+                    <Text style={{...Body_Regular, color: colors.text_black}}>
+                        {amount}
+                    </Text>
+                </View>
+                <View style={{ flexDirection: 'row-reverse' }}>
+                    <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 16}}>
+                        {/* <Text>
+                            前往繳交
+                        </Text> */}
+                        <Feather name = "arrow-right-circle" size={28} color={colors.primary_100}/>
+                        
+                    </View>
+                </View>
+            </TouchableOpacity>
+        </View>
+        
     );
   };
 
   const PaymentItem = (props) => {
     const navigation = useNavigation()
-
-    const HandlePayment = () => {
-
-        navigation.navigate("Payment")
-    }
     
-    const { address, payTime, amount, title, method} = props;
+    const { address, payTime, amount, title} = props;
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -113,14 +112,6 @@ const UnPaymentItem = (props) => {
                     {amount}
                 </Text>
             </View>
-            <View style={styles.textContainer}>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    支付方式
-                </Text>
-                <Text style={{...Body_Regular, color: colors.text_black}}>
-                    {method}
-                </Text>
-            </View>
             
             
       </View>
@@ -128,45 +119,77 @@ const UnPaymentItem = (props) => {
   };
 
 const ManagementFee = ({ route }) => {
-
+    const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
-    const handlePoolBall = () => {
+    const [activeTab, setActiveTab] = useState('active');
+    useEffect(() => {
+        if (route.params === 'records') {
+            setActiveTab(route.params);
+        }
+    }, [route.params]);
 
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
+
+    const handlePaymentDetail = () => {
+        navigation.navigate("PaymentDetail");
+        setModalVisible(false);
     }
-    const handleMeeting = () => {
-      navigation.navigate("MeetingRoom", { activeTab: activeTab });
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
     }
-    const handleBack = () => {
-      // Handle navigation to the announcement details screen
-      //console.log("Navigating to announcement:", announcement.title);
-        navigation.goBack()
 
-        };
-        const [activeTab, setActiveTab] = useState('active');
-        useEffect(() => {
-          if (route.params === 'records') {
-              setActiveTab(route.params);
-          }
-      }, [route.params]);
-
-        const handleTabChange = (tab) => {
-            setActiveTab(tab);
-        };
-        return (
-          <View style={{backgroundColor: colors.background_white, height: '100%'}}>
-              <Header title = "繳管理費"/>
-              <TabBar activeTitle="尚未繳交" recordTitle = "繳費明細" activeTab={activeTab} handleTabChange={handleTabChange}></TabBar>
-                <ScrollView style={{ flex: 1, marginHorizontal: 20 }}>
-                    {/* 根据选项卡状态渲染不同的内容 */}
-                    {activeTab === 'active' ? (
-                      <UnPaymentItem title="113 年 2 月管理費" deadline="2024-02-29 23:59" amount = "1196" address = "114 號 5 樓之 14"/>
-                    ) : (
+    return (
+        <View style={{backgroundColor: colors.background_white, height: '100%'}}>
+            <Header title = "繳管理費"/>
+            <TabBar activeTitle="尚未繳交" recordTitle = "繳費明細" activeTab={activeTab} handleTabChange={handleTabChange}></TabBar>
+            <ScrollView style={{ flex: 1, marginHorizontal: 20 }}>
+                {activeTab === 'active' ? (
+                    <View>
+                        <UnPaymentItem title="113 年 2 月管理費" deadline="2024-02-29 23:59" amount="1196" address="114 號 5 樓之 14" setModalVisible={setModalVisible}/>
+                        <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={() => setModalVisible(false)}
+                        >
+                            <TouchableWithoutFeedback onPress={handleCloseModal}>
+                                <View style={styles.modalContainer}>
+                                <View style={styles.listContainer}>
+                                    <FlatList
+                                        data={[
+                                            {key: '超商繳費'},{key: '信用卡繳費'}, {key: 'ATM 匯款'},{key: '網銀匯款'},
+                                        ]}
+                                        renderItem={({ item }) => (
+                                            <TouchableOpacity onPress={handlePaymentDetail}
+                                                style={styles.methodContainer}
+                                            >
+                                                <Text style={{...H4}}>{item.key}</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                        style = {styles.listContainer}
+                                    />
+                                </View>
+                                    
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </Modal>
+                        
+                    </View>
+                    
+                ) : (
+                    <View style={{gap: 16}}>
                         <PaymentItem title="113 年 1 月管理費" payTime="2024-01-04 21:59" amount = "1196" address = "114 號 5 樓之 14" method = "超商繳費"/>
+                        <PaymentItem title="112 年 12 月管理費" payTime="2024-12-10 18:32" amount = "1196" address = "114 號 5 樓之 14" method = "超商繳費"/>
+                    </View>
+                    
 
-                    )}
-                </ScrollView>
-          </View>
-      )
+                )}
+            </ScrollView>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -221,6 +244,24 @@ const styles = StyleSheet.create({
     },
     image:{
 
+    },
+    modalContainer: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // 半透明背景
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    listContainer:{
+        backgroundColor: colors.text_white,
+        width: '100%',
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+        paddingVertical: 8,
+    },
+    methodContainer:{
+        paddingVertical: 8,
+        alignItems: 'center',
     }
 
 });

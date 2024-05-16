@@ -6,6 +6,13 @@ export const H3 = {
     lineHeight: 33,
     fontWeight: 'Bold'
 };
+
+export const H4 = {
+    fontSize: 18,
+    fontFamily: 'NotoSansTCBold',
+    lineHeight: 33,
+    fontWeight: 'Bold'
+};
   
 export const Title = {
     fontSize: 16,

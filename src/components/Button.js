@@ -4,7 +4,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Dimensions } from 'react-native';
 import { TouchableOpacity, Pressable } from "react-native";
 import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../assets/TextStyles';
-import AwesomeButton from "react-native-really-awesome-button";
 import colors from '../assets/colors/colors';
 import Feather from 'react-native-vector-icons/Feather';
 

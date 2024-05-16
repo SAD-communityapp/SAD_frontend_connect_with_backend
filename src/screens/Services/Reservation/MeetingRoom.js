@@ -1,11 +1,11 @@
 import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity,  } from 'react-native'
 import React, { useState, useEffect  } from 'react'
-import colors from '../../../../assets/colors/colors'
-import { Body_Regular, H3, Small_Body_Regular, Title } from '../../../../assets/TextStyles'
-import Header from '../../../../components/Header'
-import Button from '../../../../components/Button'
+import colors from '../../../assets/colors/colors'
+import { Body_Regular, H3, Small_Body_Regular, Title } from '../../../assets/TextStyles'
+import Header from '../../../components/Header'
+import Button from '../../../components/Button'
 import Entypo from 'react-native-vector-icons/Entypo'
-import Reservation from '../Reservation'
+import Reservation from './Reservation'
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -84,7 +84,7 @@ const TimeSlot = ({ selectedDate }) => {
         setSelectedTimes(prevSelectedTime => prevSelectedTime.filter((_, index) => index !== indexToRemove));
     }
     
-const navigation = useNavigation()
+    const navigation = useNavigation()
 
     const handleReservation  = () =>{
         navigation.navigate('Reservation', "records");
@@ -153,7 +153,7 @@ const navigation = useNavigation()
             <View style={styles.separator}></View>
             <Text style={styles.titleText}>已選時段</Text>
             <Text>{selectedDate.toLocaleDateString([], { month: '2-digit', day: 'numeric' })}</Text>
-            <View style={{flexDirection: 'row', gap: 16, marginTop: 16}}>
+            <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 16}}>
                 
                 {selectedTime.map((time, index) => (
                     <View style={styles.timeContainer}  key={index}>
@@ -172,7 +172,7 @@ const navigation = useNavigation()
                 primary_filled={true} 
                 onPress={handleReservation}
                 disabled={selectedTime.length === 0}
-                style={{alignSelf: 'center'}}
+                style={{alignSelf: 'center', marginTop: 16}}
                 
                 >
             </Button>
@@ -184,13 +184,12 @@ const navigation = useNavigation()
 
 
 const MeetingRoomReservation = () => {
-    
       
     return (
         <View style={{backgroundColor: colors.background_white, height: '100%'}}>
             <Header title = "會議室預約"/>
             <ScrollView style={styles.container}>                
-                <Image source={require("../../../../assets/img/meetingRoom.png")} style={styles.image}/>
+                <Image source={require("../../../assets/img/meetingRoom.png")} style={styles.image}/>
                 <Text style = {styles.titleText}>會議室</Text>
                 <View style={styles.contentContainer}>
                     <Text style={styles.contentText}>開放時間</Text>
@@ -227,7 +226,7 @@ const MeetingRoom  = () => {
                 <View>
                     <Header title = "會議室預約"/>
                     <ScrollView style={styles.container}>                
-                        <Image source={require("../../../../assets/img/meetingRoom.png")} style={styles.image}/>
+                        <Image source={require("../../../assets/img/meetingRoom.png")} style={styles.image}/>
                         <Text style = {styles.titleText}>會議室</Text>
                         <View style={styles.contentContainer}>
                             <Text style={styles.contentText}>開放時間</Text>
@@ -271,12 +270,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginVertical: 16,
         gap: 16,
-        alignSelf: 'center',
+        
     },
     titleText:{
         ...Title,
         fontWeight: 'bold',
         marginVertical: 16,
+        flex: 1
     }, 
     contentContainer:{
         flexDirection: 'row',

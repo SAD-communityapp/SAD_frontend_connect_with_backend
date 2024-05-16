@@ -75,7 +75,7 @@ const SigninScreen = ({navigation}) =>{
                 marginTop: 205,
                 }}>
                 <View style={{flex: 1, justifyContent: 'center'}}>
-                    <Image source={require("./image/image38.png")}
+                    <Image source={require("../../assets/img/image38.png")}
                     style={{
                         height: 112,
                         width: 112,

@@ -1,13 +1,13 @@
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native'
-import Header from '../../../components/Header'
+import Header from '../../components/Header'
 import React, { Component, useState } from 'react'
-import { Title, Body_Regular} from '../../../assets/TextStyles'
-import colors from '../../../assets/colors/colors'
+import { Title, Body_Regular} from '../../assets/TextStyles'
+import colors from '../../assets/colors/colors'
 import { useRoute } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import CommentSection from '../../../components/CommentSection';
+import CommentSection from '../../components/CommentSection';
 
 const AnnouncementDetail = () => {
   // const [attachment, setAttachment] = useState(null); // 用于存储附件信息

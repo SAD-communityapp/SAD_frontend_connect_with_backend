@@ -98,7 +98,7 @@ const AnnouncementTable = props => {
         </View>
       </TouchableOpacity>
 {/*Row 2 */}
-<TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
+      <TouchableOpacity activeOpacity={1} style = {styles.table_body} onPress={handlePress}>
         <View style={{minWidth: 90, flex: 3,paddingHorizontal: 8}}>
             <Text style={styles.table_data}>2024-04-01</Text>
         </View>

@@ -6,26 +6,12 @@
  */
 
 import { NavigationContainer } from '@react-navigation/native';
-import { getHeaderTitle } from '@react-navigation/elements';
-import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from './src/assets/TextStyles.js';
 import React from 'react';
 import colors from './src/assets/colors/colors.js';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
-import Zocial from 'react-native-vector-icons/Zocial';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import SigninScreen from './src/screens/SigninScreen/index.js';
-import LinearGradient from 'react-native-linear-gradient';
+import SigninScreen from './src/screens/SigninScreen/SigninScreen.js';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import type {PropsWithChildren} from 'react';
@@ -41,18 +27,18 @@ import {
   Button
 } from 'react-native';
 
-import Home from './src/screens/Home/index.js';
-import Services from './src/screens/Services/index.js';
-import Notification from './src/screens/Notification/index.js';
-import My from './src/screens/My/index.js';
+import Home from './src/screens/Home/Home.js';
+import Services from './src/screens/Services/Services.js';
+import Notification from './src/screens/Notification/Notification.js';
+import My from './src/screens/My/My.js';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
-import AnnouncementDetail from './src/screens/Home/AnnouncementDetail/AnnouncementDetail.js'
+import AnnouncementDetail from './src/screens/Home/AnnouncementDetail.js'
 import icoMoonConfig from './src/assets/icons/selection.json'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Reservation from './src/screens/Services/Reservation/index.js';
-import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom/index.js';
-import ManagementFee from './src/screens/Services/ManagementFee/index.js';
-import Payment from './src/screens/Services/ManagementFee/Payment.js'
+import Reservation from './src/screens/Services/Reservation/Reservation.js';
+import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom.js';
+import ManagementFee from './src/screens/Services/ManagementFee/ManagementFee.js';
+import PaymentDetail from './src/screens/Services/ManagementFee/PaymentDetail.js';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
 const HomeName = '主頁';
@@ -60,11 +46,10 @@ const ServicesName = '服務';
 const NotificationName = '通知';
 const MyName = '個人';
 
-const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+// type SectionProps = PropsWithChildren<{
+//   title: string;
+// }>;
 
 
 function HomeStackNavigator(){
@@ -105,7 +90,7 @@ function ServicesStackNavigator(){
         <Stack.Screen name="Reservation" component={Reservation} options={{ headerShown: false }}/>
         <Stack.Screen name="MeetingRoom" component={MeetingRoom} options={{headerShown: false}}/>
         <Stack.Screen name="ManagementFee" component={ManagementFee} options={{headerShown: false}}/>
-        <Stack.Screen name="Payment" component={Payment} options={{headerShown: false}}/>
+        <Stack.Screen name="PaymentDetail" component={PaymentDetail} options={{headerShown: false}}/>
 
       </Stack.Navigator>
   )
