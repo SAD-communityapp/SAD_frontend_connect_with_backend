@@ -13,27 +13,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import SigninScreen from './src/screens/SigninScreen/SigninScreen.js';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import type {PropsWithChildren} from 'react';
-Ionicons.loadFont();
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button
-} from 'react-native';
-
 import Home from './src/screens/Home/Home.js';
 import Services from './src/screens/Services/Services.js';
 import Notification from './src/screens/Notification/Notification.js';
 import My from './src/screens/My/My.js';
-import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import AnnouncementDetail from './src/screens/Home/AnnouncementDetail.js'
-import icoMoonConfig from './src/assets/icons/selection.json'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Reservation from './src/screens/Services/Reservation/Reservation.js';
 import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom.js';
