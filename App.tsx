@@ -13,11 +13,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import SigninScreen from './src/screens/SigninScreen/SigninScreen.js';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './src/screens/Home/Home.js';
+import Home from './src/screens/Home_User/Home.js';
 import Services from './src/screens/Services/Services.js';
-import Notification from './src/screens/Notification/Notification.js';
-import My from './src/screens/My/My.js';
-import AnnouncementDetail from './src/screens/Home/AnnouncementDetail.js'
+import Notification from './src/screens/Notification_User/Notification.js';
+import My from './src/screens/My_User/My.js';
+import AnnouncementDetail from './src/screens/Home_User/AnnouncementDetail.js'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Reservation from './src/screens/Services/Reservation/Reservation.js';
 import MeetingRoom from './src/screens/Services/Reservation/MeetingRoom.js';
