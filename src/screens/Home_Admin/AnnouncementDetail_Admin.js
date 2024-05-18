@@ -7,9 +7,9 @@ import { useRoute } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import CommentSection from '../../components/CommentSection_User';
+import CommentSection_Admin from '../../components/CommentSection_Admin';
 
-const AnnouncementDetail = () => {
+const AnnouncementDetail_Admin = () => {
   // const [attachment, setAttachment] = useState(null); // 用于存储附件信息
 
   // // 模拟从后端获取附件信息的函数
@@ -89,7 +89,7 @@ const AnnouncementDetail = () => {
               <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>留言區</Text>
               </View>
-              <CommentSection></CommentSection>
+              <CommentSection_Admin></CommentSection_Admin>
 
         </ScrollView>
     </View>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnnouncementDetail;
+export default AnnouncementDetail_Admin;
 
 // export default class AnnouncementDetail extends Component {
 //   render() {

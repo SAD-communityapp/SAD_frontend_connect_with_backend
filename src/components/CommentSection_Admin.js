@@ -3,7 +3,7 @@ import { View, Text, TextInput, FlatList, TouchableWithoutFeedback,TouchableOpac
 import Send from './Send';
 import colors from '../assets/colors/colors';
 import { Smallest_Body_Regular } from '../assets/TextStyles';
-const CommentSection = () => {
+const CommentSection_Admin = () => {
   // 留言列表数据
   const [comments, setComments] = useState([]);
   // 用户输入的留言内容
@@ -24,15 +24,17 @@ const CommentSection = () => {
   };
 
   const handleReply = () => {
-    setReplyVisible(true);
-    // if (replyText.trim() !== '') {
-    //   setComments([...comments, { id: comments.length + 1, text: inputText }]);
-    //   setInputText('');
-    // }
+    if (replyVisible && replyText.trim() !== '') {
+      // 如果回复框已经显示且有输入文字，则直接发送回复
+      handleSendReply();
+    } else {
+      // 否则，显示回复框
+      setReplyVisible(true);
+    }
   };
 
   const handleSendReply = () => {
-    if (replyText.trim() !== '') {
+    if (replyText.trim() != '') {
       setComments([...comments, { id: comments.length + 1, text: replyText }]);
       setReplyText(''); // 清空回复输入框的文本
       setReplyVisible(false);
@@ -55,14 +57,17 @@ const CommentSection = () => {
   };
 
   useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
-    return () => {
-      keyboardDidHideListener.remove();
-    };
-  }, []);
+    if (!replyText.trim()) {
+      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+      return () => {
+        keyboardDidHideListener.remove();
+      };
+    }
+  }, [replyText]);
+
 
   const handleKeyboardDidHide = () => {
-    if (!replyText) {
+    if (!replyText.trim()) {
       setReplyVisible(false);
     }
   };
@@ -74,11 +79,10 @@ const CommentSection = () => {
                 {/* 留言输入框 */}
                 <View>
                   <Image
-                    source={require("../assets/img/image12.png")}
+                    source={require("../assets/img/image27.png")}
                     style={styles.image}
                   />
                 </View>
-                
                 <TextInput
                   style={styles.input}
                   placeholder="留個言吧"
@@ -134,14 +138,13 @@ const CommentSection = () => {
                     <Text style={{color:colors.tertiary_100}}>剛剛{/*time*/}</Text>
                   </View>
                   <Text>不好意思，因為近日有颱風造成水質下降，因此管委會決定要再次清洗水塔，對於您的不便，我們深感抱歉。{/*content*/}</Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity >
                         <Text style={{color:colors.tertiary_100}}>{/*item.text*/}回覆</Text>
                   </TouchableOpacity>
                 </View>
               </View>
           </View>
     </TouchableWithoutFeedback>
-    
   );
 };
 
@@ -221,4 +224,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CommentSection;
+export default CommentSection_Admin;

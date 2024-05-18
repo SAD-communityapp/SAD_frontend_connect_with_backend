@@ -16,8 +16,8 @@ const Button = (props) => {
     // const textColor = props.filled ? colors.text_white : colors.primary_50;
     const IconComponent = props.iconLibrary || Feather;
     const { primary_filled, tertiary_filled, tertiary_outlined, disabled, icon, title, onPress, style } = props;
+    let backgroundColor, borderColor, textColor;
     const getButtonStyle = ({ pressed }) => {
-        let backgroundColor, borderColor, textColor;
         if (props.primary_filled){
             if (props.disabled) {
                 backgroundColor = colors.tertiary_25; // Disabled state
@@ -80,16 +80,27 @@ const Button = (props) => {
             onPress={onPress}
             disabled={disabled}
         >
-            {props.icon && (
-                <Text style={{ paddingLeft: props.title ? 8 : 16, paddingRight: props.title ? 0 : 16 , paddingVertical: props.title ? 8 : 0}}> {/* 添加条件渲染，如果有标题，添加间距 */}
+            {title && icon && (
+                <View style={{flexDirection: 'row', alignItems: 'center',  paddingLeft: 12, paddingRight: 16, }}>
+                    <IconComponent name={props.icon} style={{
+                        color: colors.text_white,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }} />
+                    <Text style={{...Body_bold, marginLeft: 8, marginVertical: 8, fontWeight: 'bold',color: getButtonStyle({ onPress }).textColor }}>
+                        {title}
+                    </Text>
+                </View>
+                
+            )}
+            {title && !icon && (
+                <Text style={{...Body_bold, fontWeight: 'bold',  color: getButtonStyle({ onPress }).textColor, paddingHorizontal: 16, paddingVertical:6}}>
                     {title}
-                    <IconComponent name={props.icon} style={styles.icon} />
                 </Text>
             )}
-            {title && (
-                <Text style={{ paddingLeft: props.icon ? 0 : 16 , paddingRight: 16, color: getButtonStyle({ onPress }).textColor }}>
-                    {title}
-                </Text>
+            {!title && icon &&  (
+                <IconComponent name={props.icon} style={styles.icon} />
+
             )}
             {/* Render title if provided */}
             {/* {title && (
@@ -111,7 +122,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        paddingVertical: 8,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
@@ -124,6 +134,8 @@ const styles = StyleSheet.create({
         color: colors.text_white,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: 16, 
+        paddingVertical: 8,
         // Add some spacing between icon and text
     },
     outlinedButton: {

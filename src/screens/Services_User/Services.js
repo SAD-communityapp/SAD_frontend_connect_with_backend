@@ -40,7 +40,7 @@ const Services = () => {
                 style={{ flex: 1, height:97, borderBottomLeftRadius: 20, borderBottomRightRadius: 20}}
                 >
                 <Text style={{ ...H3, fontWeight: 'bold', color: colors.text_white, paddingTop: 49, paddingLeft: 16 }}>
-                社區網路通
+                社區服務
                 </Text>
                 </LinearGradient>
             </View>

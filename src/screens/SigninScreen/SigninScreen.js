@@ -35,11 +35,17 @@ const SigninScreen = ({navigation}) =>{
     };
 
     const handleSignIn = () =>{
-        navigation.navigate("MainAppUser")
+        if(username === 'Admin'){
+            navigation.navigate("MainAppAdmin")
+        }
+        else{
+            navigation.navigate("MainAppUser")
+        }
         setUsername("");
         setPassword("");
         
     }
+
 //前後端串起來的 handleSignIn
     // async function handleSignIn() {
     //     // Perform login logic
@@ -107,12 +113,12 @@ const SigninScreen = ({navigation}) =>{
                         </TextInput>
 
                         <TextInput
-                        value={password}
-                        onChangeText={handlePasswordChange}
-                        secureTextEntry={true}
-                        placeholder="請輸入密碼"
-                        placeholderTextColor={colors.tertiary_100}
-                        style={styles.inputContainer}
+                            value={password}
+                            onChangeText={handlePasswordChange}
+                            secureTextEntry={true}
+                            placeholder="請輸入密碼"
+                            placeholderTextColor={colors.tertiary_100}
+                            style={styles.inputContainer}
                         >
                         </TextInput>
                     </View>
@@ -121,6 +127,7 @@ const SigninScreen = ({navigation}) =>{
                         primary_filled={true} 
                         onPress={handleSignIn}
                         disabled={!username || !password}
+                        style={{height: 40}}
                     >
                     </Button>
                 </View>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// 其實是 admin
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -6,60 +7,48 @@ import colors from "../../assets/colors/colors";
 import Button from '../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { H3, Small_Body_Bold, Body_Regular } from '../../assets/TextStyles';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const Notification = () => {
+
+const Notification_Admin = () => {
+
+    const navigation = useNavigation();
+    const route = useRoute();
+    
+
     const [notifications, setNotifications] = useState([
-        { id: 1, title: '水塔清洗通知', date: '2024/03/21 12:20', hasDot: true, details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 2, title: '包裹到貨通知', date: '2024/03/18 12:20', hasDot: true, details: '您的包裹已到達，請於 03/28 前取件。' },
-        { id: 3, title: '撞球桌預約提醒', date: '2024/03/17 12:20', hasDot: true, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 4, title: '撞球桌預約提醒', date: '2024/03/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 5, title: '包裹到貨通知', date: '2024/03/13 12:20', hasDot: false, details: '您的包裹已到達，請於 03/23 前取件。' },
-        { id: 6, title: '包裹到貨通知', date: '2024/03/12 12:20', hasDot: false, details: '您的包裹已到達，請於 03/22 前取件。' },
-        { id: 7, title: 'KTV 預約提醒', date: '2024/03/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 8, title: '管理費繳費通知', date: '2024/03/05 12:20', hasDot: false, details: '請於 03/15 前繳交三月份管理費。' },
-        { id: 9, title: '水塔清洗通知', date: '2024/02/21 12:20', hasDot: false, details: '明日 09:00~17:00 B 棟清洗水塔，詳情請看相關公告。' },
-        { id: 10, title: '包裹到貨通知', date: '2024/02/18 12:20', hasDot: true, details: '您的包裹已到達，請於 02/28 前取件。' },
-        { id: 11, title: '撞球桌預約提醒', date: '2024/02/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 12, title: '撞球桌預約提醒', date: '2024/02/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 13, title: '包裹到貨通知', date: '2024/02/13 12:20', hasDot: true, details: '您的包裹已到達，請於 02/23 前取件。' },
-        { id: 14, title: '包裹到貨通知', date: '2024/02/12 12:20', hasDot: false, details: '您的包裹已到達，請於 02/22 前取件。' },
-        { id: 15, title: 'KTV 預約提醒', date: '2024/02/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 16, title: '管理費繳費通知', date: '2024/02/05 12:20', hasDot: false, details: '請於 02/15 前繳交二月份管理費。' },
-        { id: 17, title: '水塔清洗通知', date: '2024/01/21 12:20', hasDot: false, details: '明日 09:00~17:00 C 棟清洗水塔，詳情請看相關公告。' },
-        { id: 18, title: '包裹到貨通知', date: '2024/01/18 12:20', hasDot: false, details: '您的包裹已到達，請於 01/28 前取件。' },
-        { id: 19, title: '撞球桌預約提醒', date: '2024/01/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 20, title: '撞球桌預約提醒', date: '2024/01/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 21, title: '包裹到貨通知', date: '2024/01/13 12:20', hasDot: false, details: '您的包裹已到達，請於 01/23 前取件。' },
-        { id: 22, title: '包裹到貨通知', date: '2024/01/12 12:20', hasDot: false, details: '您的包裹已到達，請於 01/22 前取件。' },
-        { id: 23, title: 'KTV 預約提醒', date: '2024/01/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 24, title: '管理費繳費通知', date: '2024/01/05 12:20', hasDot: false, details: '請於 01/15 前繳交三月份管理費。' },
-        { id: 25, title: '水塔清洗通知', date: '2023/12/21 12:20', hasDot: false, details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 26, title: '包裹到貨通知', date: '2023/12/18 12:20', hasDot: false, details: '您的包裹已到達，請於 12/28 前取件。' },
-        { id: 27, title: '撞球桌預約提醒', date: '2023/12/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 28, title: '撞球桌預約提醒', date: '2023/12/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 29, title: '包裹到貨通知', date: '2023/12/13 12:20', hasDot: false, details: '您的包裹已到達，請於 12/23 前取件。' },
-        { id: 30, title: '包裹到貨通知', date: '2023/12/12 12:20', hasDot: false, details: '您的包裹已到達，請於 12/22 前取件。' },
-        { id: 31, title: 'KTV 預約提醒', date: '2023/12/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 32, title: '管理費繳費通知', date: '2023/12/05 12:20', hasDot: false, details: '請於 12/15 前繳交二月份管理費。' },
-        // more notifications
+        { id: 1, title: '水塔清洗通知', date: '2024/03/21', building: 'A 棟 5 樓之一', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+        { id: 2, title: '包裹到貨通知', date: '2024/03/18', building: 'B 棟 7 樓', details: '您的包裹已到達，請於 03/28 前取件。' },
+        // Add additional notifications with building field
     ]);
+    
+    useEffect(() => {
+        if (route.params?.newNotification) {
+            setNotifications(prev => [route.params.newNotification, ...prev]);
+        }
+    }, [route.params?.newNotification]);
+
+    const [filterBuilding, setFilterBuilding] = useState('All'); // Filter state
+    
+    const filteredNotifications = filterBuilding === 'All' ? notifications : notifications.filter(n => n.building.includes(filterBuilding));
 
     const [viewedNotifications, setViewedNotifications] = useState(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 13;
     const totalPages = Math.ceil(notifications.length / itemsPerPage);
 
-    const NotificationItem = ({ id, title, date, hasDot, details, onExpand, isLast }) => {
+    
+    const NotificationItem = ({ id, date, title, building, details, onExpand, isLast }) => {
         const [isOpen, setIsOpen] = useState(false);
     
         const toggleItem = () => {
             setIsOpen(!isOpen);
             onExpand(id);
-            if (isOpen && hasDot) {
+            if (isOpen) {
 
                 setNotifications(prevNotifications => 
                     prevNotifications.map(notification => 
-                        notification.id === id ? { ...notification, hasDot: false } : notification
+                        notification.id === id ? { ...notification } : notification
                     )
                 );
                 
@@ -80,8 +69,8 @@ const Notification = () => {
                     <View style={[styles.cell, styles.titleContainer]}>
                         <Text style={styles.title}>{title}</Text>
                     </View>
-                    <View style={[styles.cell, styles.dotContainer]}>
-                        {hasDot && !isOpen && <View style={styles.dot} />}
+                    <View style={[styles.cell, styles.buildingContainer]}>
+                        <Text style={styles.building}>{building}</Text>
                     </View>
                     <View style={[styles.cell, styles.iconContainer]}>
                         <MaterialIcons name={isOpen ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={24} color={colors.icon_dark} />
@@ -100,7 +89,7 @@ const Notification = () => {
             </TouchableOpacity>
         );
     };
-    
+
     const handlePageChange = (direction) => {
         setCurrentPage(prev => {
             if (direction === 'next' && prev < totalPages) {
@@ -111,7 +100,29 @@ const Notification = () => {
             return prev;
         });
     };
+
+
+    const navigateToAddNotification = () => {
+        const maxId = Math.max(...notifications.map(n => n.id), 0)
+        navigation.navigate('AddNotification', {maxId});
+    };
+
+
+    const addNotification = () => {
+        console.log("Adding new notification");  // Implement functionality as needed
+    };
     
+    const FilterTab = ({ label, text }) => (
+        <TouchableOpacity
+            style={[styles.filterTab, filterBuilding === label ? styles.filterTabActive : {}]}
+            onPress={() => setFilterBuilding(label)}
+        >
+            <Text style={[styles.filterTabText, filterBuilding === label ? styles.filterTabTextActive : {}]}>
+                {text}
+            </Text>
+        </TouchableOpacity>
+    );
+
     return (
         <View style={{ backgroundColor: colors.background_white, height: '100%' }}>
             <View style={{ height: 97 }}>
@@ -124,26 +135,37 @@ const Notification = () => {
                     </Text>
                 </LinearGradient>
             </View>
-            <ScrollView style={{ marginTop: 16, marginHorizontal: 25 }}>
+            {/* 新增公告 Button on top of Filter Tabs */}
+            <View style={styles.addButtonContainer}>
+                <Button primary_filled={true} iconLibrary={AntDesign} icon="plus" title= '新增通知' onPress={navigateToAddNotification} />
+            </View>
+
+            {/* Filter Tabs */}
+            <View style={styles.filterContainer}>
+                <FilterTab label="All" text="全部通知" onPress={() => setFilterBuilding('All')} />
+                <FilterTab label="A 棟" text="A 棟" onPress={() => setFilterBuilding('A 棟')} />
+                <FilterTab label="B 棟" text="B 棟" onPress={() => setFilterBuilding('B 棟')} />
+                <FilterTab label="C 棟" text="C 棟" onPress={() => setFilterBuilding('C 棟')} />
+            </View>
+
+            <ScrollView style={{marginHorizontal: 20 }}>
                 <View style={styles.tableHeader}>
                     <Text style={[styles.headerText, { flex: 3 }]}>日期</Text>
                     <Text style={[styles.headerText, { flex: 3 }]}>標題</Text>
-                    <Text style={[styles.headerText, { flex: 2 }]}>狀態</Text>
-                    <Text style={[styles.headerText, { flex: 1 }]}> </Text>
+                    <Text style={[styles.headerText, { flex: 3 }]}>門牌</Text>
+                    <Text style={[styles.headerText, { flex: 1 }]}></Text>
                 </View>
-                
-                {notifications.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((notification, index, arr) => (
+                {filteredNotifications.map((notification, index) => (
                     <NotificationItem
                         key={notification.id}
                         id={notification.id}
                         title={notification.title}
                         date={notification.date}
-                        hasDot={notification.hasDot}
+                        building={notification.building}
                         details={notification.details}
                         onExpand={() => {}}
-                        isLast={index === arr.length - 1}
+                        isLast={index === filteredNotifications.length - 1}
                     />
-
                 ))}
                 <View style={styles.pagination}>
                     <Button primary_filled={true} iconLibrary={AntDesign} icon="left" onPress={() => handlePageChange('prev')} />
@@ -151,12 +173,52 @@ const Notification = () => {
                     <Button primary_filled={true} iconLibrary={AntDesign} icon="right" onPress={() => handlePageChange('next')} />
                 </View>
             </ScrollView>
-
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    addButtonContainer: {
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        paddingTop: 16,
+        paddingRight: 20,
+        backgroundColor: colors.background_white, // Adjust color as needed
+    },
+    addButton: {
+        backgroundColor: colors.primary_75, // Choose a color that fits your app's theme
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 10,
+    },
+    addButtonText: {
+        fontSize: 16,
+        color: 'white', // Ensure text is visible against the button background
+    },
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center', // This centers the filter tabs horizontally
+        backgroundColor: colors.background_white,
+        marginHorizontal: 20,
+        borderBottomColor: 'lightgray',
+    },
+    filterTab: {
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 8   
+    },
+    filterTabActive: {
+        borderBottomWidth: 4,
+        borderBottomColor: colors.primary_100, // Highlight color for active tab
+    },
+    filterTabText: {
+        fontSize: 16,
+        color: colors.tertiary_75,
+    },
+    filterTabTextActive: {
+        color: colors.primary_100, 
+        fontWeight: 'bold',
+    },
     tableHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -164,8 +226,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 16,
         backgroundColor: colors.primary_50,
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10
+        // borderTopRightRadius: 10,
+        // borderTopLeftRadius: 10
     },
     headerText: {
         fontWeight: 'bold',
@@ -219,12 +281,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    dotContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+    buildingContainer: {
+        flex: 3,
+        justifyContent: 'center',
         alignItems: 'center',
-        paddingRight: 16,
     },
     iconContainer: {
         flex: 1,
@@ -239,13 +299,6 @@ const styles = StyleSheet.create({
     date: {
         color: colors.text_black,
         textAlign: 'center',
-    },
-    dot: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        backgroundColor: 'red',
-        marginRight: 10,
     },
     bodyText: {
         color: colors.text_dark,
@@ -267,4 +320,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Notification;
+export default Notification_Admin;

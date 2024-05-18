@@ -2,7 +2,7 @@ import React, {useState}from "react";
 import {ScrollView, SafeAreaView, View, Text, Alert, StyleSheet, FlatList,Table, Row, Rows  } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
-import AnnouncementTable from "./Announcement";
+import AnnouncementTable from "./Announcement_Admin";
 import colors from '../../assets/colors/colors';
 import Button from "../../components/Button";
 import {Agenda, Calendar, LocaleConfig} from 'react-native-calendars';
@@ -59,7 +59,7 @@ const column = [
 
 const TableHeadItem = ({ item }) => <th>{item.heading}</th>;
 
-function Home({navigation}){
+function Home_Admin({navigation}){
     const [selected, setSelected] = useState('');
     const getMarked = () => {
         let marked = {};
@@ -87,7 +87,16 @@ function Home({navigation}){
           };
         }
         return marked;
-      };
+    };
+      
+    
+    const handle_Add = (announcement) => {
+        // Handle navigation to the announcement details screen
+        //console.log("Navigating to announcement:", announcement.title);
+        navigation.navigate("Add_Announcement")
+
+    };
+
     return(
 
         <View style={{backgroundColor: colors.background_white, height: '100%'}}>
@@ -101,11 +110,14 @@ function Home({navigation}){
                 </Text>
                 </LinearGradient>
             </View>
-            <ScrollView>                
-                <View style={{paddingHorizontal: 20}}>
-                    <Text style={{...Title, fontWeight: 'bold', color: colors.text_black, paddingTop: 16}}>
-                        社區公告 這裡是 USER
+            <ScrollView>
+                  
+                <View style={{marginTop: 16, paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Text style={{...Title, fontWeight: 'bold', color: colors.text_black}}>
+                        社區公告
                     </Text>
+                    
+                    <Button primary_filled={true} iconLibrary={AntDesign} icon="plus" title= '新增公告' onPress={handle_Add} />
                 </View>
                 <View style={{alignItems: 'center', marginHorizontal: 20, justifyContent: 'center'}}>
                     <AnnouncementTable announcements={announcements} />
@@ -207,7 +219,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home
+export default Home_Admin
 
 
 
