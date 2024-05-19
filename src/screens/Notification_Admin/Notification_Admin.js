@@ -1,3 +1,4 @@
+//Notification Admin
 // 其實是 admin
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';

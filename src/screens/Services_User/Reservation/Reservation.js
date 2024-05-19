@@ -15,7 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 const Reservation = ({ route }) => {
 
 
-  const [notifications, setNotifications] = useState([
+  const [reservations, setReservation] = useState([
     { id: 1, title: '會議室', date: '2024/03/28', hasDot: true, timePeriods: ['15:00 ~ 16:00', '16:00 ~ 17:00'] },
     { id: 2, title: '撞球桌', date: '2024/03/01', hasDot: true, timePeriods: ['15:00 ~ 16:00', '16:00 ~ 17:00'] },
     { id: 3, title: '撞球桌', date: '2024/03/17', hasDot: true, timePeriods: ['15:00 ~ 16:00', '16:00 ~ 17:00'] },
@@ -23,7 +23,7 @@ const Reservation = ({ route }) => {
     { id: 5, title: '會議室', date: '2023/12/11', hasDot: false, timePeriods: ['15:00 ~ 16:00', '16:00 ~ 17:00'] },
     { id: 6, title: '會議室', date: '2023/12/10', hasDot: false, timePeriods: ['15:00 ~ 16:00', '16:00 ~ 17:00'] },
     { id: 7, title: 'KTV', date: '2023/03/08', hasDot: false, timePeriods: ['15:00 ~ 16:00', '16:00 ~ 17:00'] },
-    // more notifications
+    // more reservations
   ]);
 
     const navigation = useNavigation();
@@ -44,10 +44,10 @@ const Reservation = ({ route }) => {
         setActiveTab(tab);
     };
     
-    const [viewedNotifications, setViewedNotifications] = useState(new Set());
+    const [viewedReservations, setViewedReservations] = useState(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 13;
-    const totalPages = Math.ceil(notifications.length / itemsPerPage);
+    const totalPages = Math.ceil(reservations.length / itemsPerPage);
 
     const ReservationItem = ({ id, title, date, hasDot, timePeriods, onExpand, isLast }) => {
         const [isOpen, setIsOpen] = useState(false);
@@ -57,16 +57,16 @@ const Reservation = ({ route }) => {
             onExpand(id);
             if (isOpen && hasDot) {
 
-                setNotifications(prevNotifications => 
-                    prevNotifications.map(notification => 
-                        notification.id === id ? { ...notification, hasDot: false } : notification
+                setReservation(prevReservations => 
+                    prevReservations.map(reservation => 
+                        reservation.id === id ? { ...reservation, hasDot: false } : reservation
                     )
                 );
                 
-                setViewedNotifications(prevViewedNotifications => {
-                    const updatedViewedNotifications = new Set(prevViewedNotifications);
-                    updatedViewedNotifications.add(id);
-                    return updatedViewedNotifications;
+                setViewedReservations(prevViewedReservations => {
+                    const updatedViewedReservations = new Set(prevViewedReservations);
+                    updatedViewedReservations.add(id);
+                    return updatedViewedReservations;
                 });
             }
         };
@@ -199,14 +199,14 @@ const Reservation = ({ route }) => {
                             <Text style={[styles.headerText, { flex: 1 }]}> </Text>
                         </View>
                         
-                        {notifications.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((notification, index, arr) => (
+                        {reservations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((reservation, index, arr) => (
                             <ReservationItem
-                                key={notification.id}
-                                id={notification.id}
-                                title={notification.title}
-                                date={notification.date}
-                                hasDot={notification.hasDot}
-                                timePeriods={notification.timePeriods}
+                                key={reservation.id}
+                                id={reservation.id}
+                                title={reservation.title}
+                                date={reservation.date}
+                                hasDot={reservation.hasDot}
+                                timePeriods={reservation.timePeriods}
                                 onExpand={() => {}}
                                 isLast={index === arr.length - 1}
                             />
