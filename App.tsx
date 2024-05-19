@@ -20,17 +20,22 @@ import Home_User from './src/screens/Home_User/Home.js';
 import Services_User from './src/screens/Services_User/Services.js';
 import Notification_User from './src/screens/Notification_User/Notification.js';
 import My_User from './src/screens/My_User/My.js';
+import Account from './src/screens/My_User/Account.js';
+import ManagementFeeRecord from './src/screens/My_User/ManagementFeeRecord.js';
+import ReservationRecord from './src/screens/My_User/ReservationRecord.js';
 import AnnouncementDetail_User from './src/screens/Home_User/AnnouncementDetail.js'
 import Reservation_User from './src/screens/Services_User/Reservation/Reservation.js';
 import MeetingRoom_User from './src/screens/Services_User/Reservation/MeetingRoom.js';
 import ManagementFee_User from './src/screens/Services_User/ManagementFee/ManagementFee.js';
 import PaymentDetail_User from './src/screens/Services_User/ManagementFee/PaymentDetail.js';
+import Gas from './src/screens/Services_User/Gas/Gas.js';
 
 import Home_Admin from './src/screens/Home_Admin/Home_Admin.js';
 import AnnouncementDetail_Admin from './src/screens/Home_Admin/AnnouncementDetail_Admin.js';
 import Add_Announcement from './src/screens/Home_Admin/Add_Announcement.js';
 import Notification_Admin from './src/screens/Notification_Admin/Notification_Admin.js';
 import AddNotification from './src/screens/Notification_Admin/Add_Notification.js';
+import My_Admin from './src/screens/My_Admin/My_Admin.js';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
 const HomeName = '主頁';
@@ -106,6 +111,30 @@ function ServicesStackNavigator_User(){
         <Stack.Screen name="MeetingRoom" component={MeetingRoom_User} options={{headerShown: false}}/>
         <Stack.Screen name="ManagementFee" component={ManagementFee_User} options={{headerShown: false}}/>
         <Stack.Screen name="PaymentDetail" component={PaymentDetail_User} options={{headerShown: false}}/>
+        <Stack.Screen name="Gas" component={Gas} options={{headerShown: false}}/>
+
+      </Stack.Navigator>
+  )
+}
+
+function MyStackNavigator_User(){
+  return(
+    <Stack.Navigator
+        initialRouteName = 'My'
+        screenOptions={{
+          header: (props) => <NavBarUser/>,
+        }}
+      >
+        <Stack.Screen
+          name = "My"
+          component = {My_User}
+          options={{
+            headerShown:false
+          }}
+        />
+        <Stack.Screen name="Account" component={Account} options={{ headerShown: false }}/>
+        <Stack.Screen name="ManagementFeeRecord" component={ManagementFeeRecord} options={{ headerShown: false }}/>
+        <Stack.Screen name="ReservationRecord" component={ReservationRecord} options={{ headerShown: false }}/>
 
       </Stack.Navigator>
   )
@@ -218,7 +247,7 @@ function NavBarUser(){
               <Tab.Screen name={HomeName} component={HomeStackNavigator_User} />
               <Tab.Screen name={ServicesName} component={ServicesStackNavigator_User} />
               <Tab.Screen name={NotificationName} component={Notification_User} />
-              <Tab.Screen name={MyName} component={My_User} />
+              <Tab.Screen name={MyName} component={MyStackNavigator_User} />
     </Tab.Navigator>
   );
 }
@@ -263,7 +292,7 @@ function NavBarAdmin(){
               <Tab.Screen name={HomeName} component={HomeStackNavigator_Admin} />
               <Tab.Screen name={ServicesName} component={ServicesStackNavigator_Admin} />
               <Tab.Screen name={NotificationName} component={NotificationStackNavigator_Admin} />
-              <Tab.Screen name={MyName} component={My_User} />
+              <Tab.Screen name={MyName} component={My_Admin} />
     </Tab.Navigator>
   );
 }

@@ -1,5 +1,6 @@
 //Add Notification
-import React, { useState, useRoute } from 'react';
+import React, { useState} from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Modal, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../assets/colors/colors';
@@ -8,8 +9,10 @@ import Header from '../../components/Header';
 import { Body_Regular } from '../../assets/TextStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const AddNotification = ({ navigation}) => {
+const AddNotification = () => {
+    const navigation = useNavigation();
     const route = useRoute();
     const { maxId } = route.params;
 

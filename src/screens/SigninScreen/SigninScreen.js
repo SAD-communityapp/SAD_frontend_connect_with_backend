@@ -1,49 +1,45 @@
-import React, { useState,Component } from "react";
+import React, { useState,} from "react";
 import LinearGradient from 'react-native-linear-gradient';
 import Button from "../../components/Button";
 import colors from '../../assets/colors/colors';
-import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
-// import login from "@/lib/login";
-// import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { H3, Body_Regular, } from '../../assets/TextStyles';
 
 import {
-    Dimensions,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
-    useColorScheme,
     Image,
     View,
     TextInput,
-    Pressable,
-    KeyboardAvoidingView
   } from 'react-native';
 
 const SigninScreen = ({navigation}) =>{
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleUsernameChange = (text) => {
         setUsername(text);
+        setError(""); 
     };
 
     const handlePasswordChange = (text) => {
         setPassword(text);
+        setError("");
     };
 
+    //按下登入鍵之後 然後最下面註解掉的是芷妤姊給我的扣 好像是
     const handleSignIn = () =>{
-        if(username === 'Admin'){
+        if(username === 'admin' || username === 'Admin'){
             navigation.navigate("MainAppAdmin")
         }
-        else{
+        else if (username === 'user' || username === 'User'){
             navigation.navigate("MainAppUser")
+        }
+        else {
+            setError("帳號或密碼錯誤，請再試一次")
         }
         setUsername("");
         setPassword("");
-        
     }
 
 //前後端串起來的 handleSignIn
@@ -109,8 +105,7 @@ const SigninScreen = ({navigation}) =>{
                         value={username}
                         onChangeText={handleUsernameChange}
                         style={styles.inputContainer}
-                        >
-                        </TextInput>
+                        />
 
                         <TextInput
                             value={password}
@@ -119,8 +114,10 @@ const SigninScreen = ({navigation}) =>{
                             placeholder="請輸入密碼"
                             placeholderTextColor={colors.tertiary_100}
                             style={styles.inputContainer}
-                        >
-                        </TextInput>
+                        />
+                        {error ? (
+                            <Text style={{ color: colors.notification, marginTop: 8, alignSelf: 'center'}}>{error}</Text>
+                        ) : null}
                     </View>
                     <Button
                         title = "登入"
@@ -145,7 +142,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.text_white,
         paddingVertical: 4,
         paddingHorizontal: 12,
-        borderraidius: 10
+        borderraidius: 10,
+        ...Body_Regular,
     },
   });
 

@@ -1,13 +1,9 @@
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, Modal,TouchableWithoutFeedback, FlatList } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Modal,TouchableWithoutFeedback, FlatList } from 'react-native'
 import React, { useState , useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../../assets/colors/colors';
-import { H3 , H4, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../../assets/TextStyles';
-// import DataTable from "react-data-table-component";
+import {H4, Title, Body_Regular} from '../../../assets/TextStyles';
 import Feather from 'react-native-vector-icons/Feather';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from '../../../components/Button';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import TabBar from '../../../components/TabBar';
 import Header from '../../../components/Header';
 
@@ -19,14 +15,10 @@ const UnPaymentItem = (props) => {
         setModalVisible(true);
     }
 
-
-
-
-
     const { address, deadline, amount, title, setModalVisible } = props;
     return (
         <View>
-            <TouchableOpacity style={styles.container} activeOpacity={1} onPress={handlePayment}>
+            <TouchableOpacity style={styles.container} onPress={handlePayment}>
                 <View style={styles.textContainer}>
                     <Text style={{...Title, fontWeight: 'bold', color: colors.text_black}}>
                         {title}
@@ -148,7 +140,7 @@ const ManagementFee = ({ route }) => {
             <ScrollView style={{ flex: 1, marginHorizontal: 20 }}>
                 {activeTab === 'active' ? (
                     <View>
-                        <UnPaymentItem title="113 年 2 月管理費" deadline="2024-02-29 23:59" amount="1196" address="114 號 5 樓之 14" setModalVisible={setModalVisible}/>
+                        <UnPaymentItem title="113 年 2 月管理費" deadline="2024-02-29 23:59" amount="1196" address="114 號 5 樓之 1" setModalVisible={setModalVisible}/>
                         <Modal
                             animationType="fade"
                             transparent={true}
@@ -181,8 +173,8 @@ const ManagementFee = ({ route }) => {
                     
                 ) : (
                     <View style={{gap: 16}}>
-                        <PaymentItem title="113 年 1 月管理費" payTime="2024-01-04 21:59" amount = "1196" address = "114 號 5 樓之 14" method = "超商繳費"/>
-                        <PaymentItem title="112 年 12 月管理費" payTime="2024-12-10 18:32" amount = "1196" address = "114 號 5 樓之 14" method = "超商繳費"/>
+                        <PaymentItem title="113 年 1 月管理費" payTime="2024-01-04 21:59" amount = "1196" address = "114 號 5 樓之 1" method = "超商繳費"/>
+                        <PaymentItem title="112 年 12 月管理費" payTime="2024-12-10 18:32" amount = "1196" address = "114 號 5 樓之 1" method = "超商繳費"/>
                     </View>
                     
 

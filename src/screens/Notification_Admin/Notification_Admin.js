@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import colors from "../../assets/colors/colors";
 import Button from '../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { H3, Small_Body_Bold, Body_Regular } from '../../assets/TextStyles';
+import { H3, Small_Body_Bold, Body_Regular, Body_bold } from '../../assets/TextStyles';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.primary_100, // Highlight color for active tab
     },
     filterTabText: {
-        fontSize: 16,
+        ...Body_bold,
         color: colors.tertiary_75,
     },
     filterTabTextActive: {
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 10,
+        paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: colors.text_white,
     },
@@ -296,8 +296,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.text_black,
         textAlign: 'center',
+        ...Body_Regular,
     },
     date: {
+        ...Body_Regular,
         color: colors.text_black,
         textAlign: 'center',
     },
@@ -305,6 +307,7 @@ const styles = StyleSheet.create({
         color: colors.text_dark,
         ...Body_Regular,
         textAlign: 'center',
+        ...Body_Regular,
 
     },
     bodyContainer:{

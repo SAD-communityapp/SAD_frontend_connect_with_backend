@@ -26,6 +26,10 @@ const Services = () => {
     const handleManagementFee = () => {
         navigation.navigate("ManagementFee")
     }
+
+    const handleGas = () => {
+        navigation.navigate("Gas")
+    }
     
 
 
@@ -49,7 +53,7 @@ const Services = () => {
                     <FontAwesome5 name="calendar-alt" size={70} color={colors.primary_75}/>
                     <Text style={styles.textStyle}>公設預約</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity activeOpacity={1} style={{
+                <TouchableOpacity activeOpacity={1}  onPress={handleGas} style={{
                         backgroundColor: colors.text_white,
                         borderWidth: 3,
                         borderRadius: 10,

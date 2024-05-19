@@ -1,15 +1,10 @@
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, TextBase} from 'react-native'
 import React, { useState , useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import colors from '../../../assets/colors/colors';
-import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../../assets/TextStyles';
-// import DataTable from "react-data-table-component";
-import Feather from 'react-native-vector-icons/Feather';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from '../../../components/Button';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
-import TabBar from '../../../components/TabBar';
-import Header from '../../../components/Header';
+import colors from '../../assets/colors/colors';
+import { H3, Title, Body_Regular, Body_bold, Small_Body_Bold, Small_Body_Regular, Smallest_Body_Regular } from '../../assets/TextStyles';
+import Button from '../../components/Button';
+import Header from '../../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -28,7 +23,7 @@ const initialReseravtions = [
 ]
 
 
-const Reservation = ({ route }) => {
+const ReservationRecord = ({ route }) => {
     const currentDate = new Date();
 
     const [reservations, setReservation] = useState(initialReseravtions);
@@ -143,104 +138,33 @@ const Reservation = ({ route }) => {
         //真正要 return 的東西
         return (
           <View style={{backgroundColor: colors.background_white, height: '100%'}}>
-              <Header title = "公設預約"/>
-              <TabBar activeTitle="我要預約" recordTitle = "預約紀錄" activeTab={activeTab} handleTabChange={handleTabChange}></TabBar>
-                <ScrollView style={{ flex: 1, marginHorizontal: 20 }}>
-                    {activeTab === 'active' ? (
-                      <View style={{gap: 16}}>
-                        <View style={styles.reserveContainer}>
-                          <View style={{flexDirection: 'row', gap: 16, alignItems: 'center',}}>
-                              <Image source={require("../../../assets/img/撞球.png")} style={styles.image}></Image>
-                              <View style={styles.reserveTextContainer}>
-                                <Text style={{...Title, fontWeight: 'bold'}}>撞球桌</Text>
-                                <Text style={{...Title}}>每天 08:00 ~ 24:00</Text>
-                              </View>
-                          </View>
+                <Header title = "公設預約紀錄"/>
+                    <ScrollView style={{ marginTop: 16, marginHorizontal: 25 }}>
+                    <View style={styles.tableHeader}>
+                        <Text style={[styles.headerText, { flex: 3 }]}>日期</Text>
+                        <Text style={[styles.headerText, { flex: 3 }]}>標題</Text>
+                        <Text style={[styles.headerText, { flex: 1 }]}> </Text>
+                    </View>
+                    
+                    {reservations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((reservation, index, arr) => (
+                        <ReservationItem
+                            key={reservation.id}
+                            id={reservation.id}
+                            title={reservation.title}
+                            date={reservation.date}
+                            hasDot={reservation.hasDot}
+                            timePeriods={reservation.timePeriods}
+                            onExpand={() => {}}
+                            isLast={index === arr.length - 1}
+                        />
 
-                          <Button
-                            title = "馬上預約"
-                            primary_filled={true} 
-                            onPress={handlePoolBall}
-                          >
-                        </Button>
-                        </View>
-                        <View style={styles.reserveContainer}>
-                            <View style={{flexDirection: 'row', gap: 16, alignItems: 'center',}}>
-                                <Image source={require("../../../assets/img/健身.png")} style={styles.image}></Image>
-                                <View style={styles.reserveTextContainer}>
-                                  <Text style={{...Title, fontWeight: 'bold'}}>健身房</Text>
-                                  <Text style={{...Title}}>每天 08:00 ~ 24:00</Text>
-                                </View>
-                            </View>
-                            <Button
-                                title = "馬上預約"
-                                primary_filled={true} 
-                                onPress={handlePoolBall}
-                              >
-                            </Button>
-                        </View>
-                        <View style={styles.reserveContainer}>
-                            <View style={{flexDirection: 'row', gap: 16, alignItems: 'center',}}>
-                                <Image source={require("../../../assets/img/Pool.png")} style={styles.image}></Image>
-                                <View style={styles.reserveTextContainer}>
-                                  <Text style={{...Title, fontWeight: 'bold'}}>游泳池</Text>
-                                  <Text style={{...Title}}>每天 08:00 ~ 22:00</Text>
-                                </View>
-                            </View>
-                            <Button
-                                title = "馬上預約"
-                                primary_filled={true} 
-                                onPress={handlePoolBall}
-                              >
-                            </Button>
-                        </View>
-                        <View style={styles.reserveContainer}>
-                            <View style={{flexDirection: 'row', gap: 16, alignItems: 'center',}}>
-                                <FontAwesome6 name="people-line" size={40} color={colors.text_black}/>
-                                <View style={styles.reserveTextContainer}>
-                                  <Text style={{...Title, fontWeight: 'bold'}}>會議室</Text>
-                                  <Text style={{...Title}}>每天 08:00 ~ 21:00</Text>
-                                </View>
-                            </View>
-                            <Button
-                                title = "馬上預約"
-                                primary_filled={true} 
-                                onPress={handleMeeting}
-                              >
-                            </Button>
-                        </View>
-                        
-                        
-                      </View>
-                    ) : (
-                      <ScrollView style={{ marginTop: 16, marginHorizontal: 25 }}>
-                        <View style={styles.tableHeader}>
-                            <Text style={[styles.headerText, { flex: 3 }]}>日期</Text>
-                            <Text style={[styles.headerText, { flex: 3 }]}>標題</Text>
-                            <Text style={[styles.headerText, { flex: 1 }]}> </Text>
-                        </View>
-                        
-                        {reservations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((reservation, index, arr) => (
-                            <ReservationItem
-                                key={reservation.id}
-                                id={reservation.id}
-                                title={reservation.title}
-                                date={reservation.date}
-                                hasDot={reservation.hasDot}
-                                timePeriods={reservation.timePeriods}
-                                onExpand={() => {}}
-                                isLast={index === arr.length - 1}
-                            />
-        
-                        ))}
-                        <View style={styles.pagination}>
-                            <Button primary_filled={true} iconLibrary={AntDesign} icon="left" onPress={() => handlePageChange('prev')} />
-                            <Text style={{ marginHorizontal: 20, fontSize: 16, color: colors.text_dark }}>{currentPage}</Text>
-                            <Button primary_filled={true} iconLibrary={AntDesign} icon="right" onPress={() => handlePageChange('next')} />
-                        </View>
-                    </ScrollView>
-                    )}
-                </ScrollView>
+                    ))}
+                    <View style={styles.pagination}>
+                        <Button primary_filled={true} iconLibrary={AntDesign} icon="left" onPress={() => handlePageChange('prev')} />
+                        <Text style={{ marginHorizontal: 20, fontSize: 16, color: colors.text_dark }}>{currentPage}</Text>
+                        <Button primary_filled={true} iconLibrary={AntDesign} icon="right" onPress={() => handlePageChange('next')} />
+                    </View>
+            </ScrollView>
           </View>
       )
 }
@@ -411,4 +335,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Reservation;
+export default ReservationRecord;

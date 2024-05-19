@@ -54,10 +54,10 @@ const AnnouncementDetail = () => {
         <ScrollView style={{marginBottom: 16}}>
               <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>水塔清洗公告</Text>
-                <Text style={styles.titleText}>2024-04-01</Text>
+                <Text style={styles.titleText}>2024/04/01</Text>
               </View>
               <View style={styles.contentContainer}>
-                <Text>
+                <Text> {/* 內容 */}
                 親愛的住戶您好：{"\n\n"}
 
                 為了確保我們社區的用水品質，由清潔廠商<Text style={{ fontWeight: 'bold' }}>真乾淨</Text>依合約協助我們進行水塔的定期清洗和維護工作。以下是相關資訊。{"\n\n"}

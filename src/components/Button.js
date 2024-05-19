@@ -39,11 +39,11 @@ const Button = (props) => {
                 borderColor = backgroundColor;
                 textColor = colors.tertiary_50;
             } else if (pressed) {
-                backgroundColor = props.title ? colors.tertiary_100 : colors.tertiary_75; // Pressed state
+                backgroundColor = props.title ? "#666666" : colors.tertiary_75; // Pressed state
                 borderColor = backgroundColor;
                 textColor = colors.text_white;
             } else {
-                backgroundColor = props.title ? colors.tertiary_75: colors.primary_50; // Default state
+                backgroundColor = props.title ? colors.tertiary_100: colors.primary_50; // Default state
                 borderColor = backgroundColor;
                 textColor = colors.text_white;
             }
