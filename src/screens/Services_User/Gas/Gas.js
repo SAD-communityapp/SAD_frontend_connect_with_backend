@@ -57,19 +57,17 @@ const Gas = () => {
                     <Button primary_filled={true} title="送出" disabled={!gas} onPress={handleGas} />
                 </View>
             )}
+            <View style={{alignSelf: 'center', marginTop: 16 }}>
+                <Image
+                    source={require("../../../assets/img/image29.png")}
+                />
+            </View>
         </View>
     );
 };
 
 
 const styles = StyleSheet.create({
-    image: {
-        height: 114,
-        width: 114,
-        borderRadius: 100,
-        borderWidth: 2,
-        borderColor: colors.tertiary_75,
-    },
     table:{
         marginHorizontal: 20,
         backgroundColor: colors.text_white,

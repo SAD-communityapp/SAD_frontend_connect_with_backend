@@ -10,15 +10,19 @@ import Button from '../../components/Button'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import DatePicker from 'react-native-date-picker'
 import DropdownComponent from '../../components/DropDown'
+import { Calendar } from 'react-native-calendars'
 
 const Add_Announcement = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { maxId } = route.params;
 
     const data = [
-        { label: '最新消息', value: '1' },
-        { label: '里民活動', value: '2' },
-        { label: '管委會相關', value: '3' },
+        { label: '最新消息', value: '最新消息' },
+        { label: '里民活動', value: '里民活動' },
+        { label: '管委會相關', value: '管委會相關' },
     ];
+
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -53,15 +57,33 @@ const Add_Announcement = () => {
         setSelectedCategory('');
     };
 
-    const handle_Add = () => {
-        // 在这里可以使用选中的值进行处理
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}/${month}/${day}`; // 格式為 YYYY/MM/DD
+    };
+
+    const submitAnnouncement = () => {
+
+        const newAnnouncement = {
+            id: maxId + 1,
+            title: title,
+            date: formatDate(new Date()), // 使用 formatDate 函數來格式化日期
+            category: selectedCategory,
+            content: content, // 傳遞備註內容作為 details
+            calendar: isEnabled
+        };
+    
+        navigation.navigate('Home_Admin', { newAnnouncement });
+        resetForm();
+
         console.log('Title:', title);
         console.log('Contents:', content);
         console.log('Selected category:', selectedCategory);
         console.log('On Calendar:', isEnabled);
         console.log('Starting day:', startingDay);
         console.log('Ending day:', endingDay);
-        navigation.navigate('Home_Admin');
     };
     
     return (
@@ -167,7 +189,7 @@ const Add_Announcement = () => {
                 style={{flexDirection: 'row', gap: 12, marginVertical: 16, alignSelf:'flex-end'}}
             >
                 <Button tertiary_outlined={true} title = "取消" onPress={resetForm} />
-                <Button primary_filled={true} title = "發布公告" disabled={!title || !content || !selectedCategory} onPress={handle_Add} />
+                <Button primary_filled={true} title = "發布公告" disabled={!title || !content || !selectedCategory} onPress={submitAnnouncement} />
 
             </View>
                 

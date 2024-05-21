@@ -30,6 +30,10 @@ const Services = () => {
     const handleGas = () => {
         navigation.navigate("Gas")
     }
+
+    const hadleComment = () => {
+        navigation.navigate("Comment")
+    }
     
 
 
@@ -83,7 +87,7 @@ const Services = () => {
                     <FontAwesome5Icon name="wrench" size={70} color={colors.primary_75}/>
                     <Text style={styles.textStyle}>報修</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity activeOpacity={1} style={styles.serviceItem}>     
+                <TouchableOpacity activeOpacity={1} style={styles.serviceItem} onPress={hadleComment}>     
                     <MaterialCommunityIcons name="comment-processing" size={70} color={colors.primary_75}/>
                     <Text style={styles.textStyle}>意見反饋</Text>
                 </TouchableOpacity> 

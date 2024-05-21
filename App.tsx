@@ -29,6 +29,8 @@ import MeetingRoom_User from './src/screens/Services_User/Reservation/MeetingRoo
 import ManagementFee_User from './src/screens/Services_User/ManagementFee/ManagementFee.js';
 import PaymentDetail_User from './src/screens/Services_User/ManagementFee/PaymentDetail.js';
 import Gas from './src/screens/Services_User/Gas/Gas.js';
+import Comment from './src/screens/Services_User/Comment/Comment.js';
+import CommentDetail from './src/screens/Services_User/Comment/CommentDetail.js';
 
 import Home_Admin from './src/screens/Home_Admin/Home_Admin.js';
 import AnnouncementDetail_Admin from './src/screens/Home_Admin/AnnouncementDetail_Admin.js';
@@ -112,6 +114,8 @@ function ServicesStackNavigator_User(){
         <Stack.Screen name="ManagementFee" component={ManagementFee_User} options={{headerShown: false}}/>
         <Stack.Screen name="PaymentDetail" component={PaymentDetail_User} options={{headerShown: false}}/>
         <Stack.Screen name="Gas" component={Gas} options={{headerShown: false}}/>
+        <Stack.Screen name="Comment" component={Comment} options={{headerShown: false}}/>
+        <Stack.Screen name="CommentDetail" component={CommentDetail} options={{headerShown: false}}/>
 
       </Stack.Navigator>
   )

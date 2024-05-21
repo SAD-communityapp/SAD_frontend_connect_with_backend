@@ -1,5 +1,3 @@
-//Notification Admin
-// 其實是 admin
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,8 +16,8 @@ const Notification_Admin = () => {
     
 
     const [notifications, setNotifications] = useState([
-        { id: 1, title: '水塔清洗通知', date: '2024/03/21', building: 'A 棟 5 樓之一', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 2, title: '包裹到貨通知', date: '2024/03/18', building: 'B 棟 7 樓', details: '您的包裹已到達，請於 03/28 前取件。' },
+        { id: 1, title: '水塔清洗通知', date: '2024/03/21', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+        { id: 2, title: '包裹到貨通知', date: '2024/03/18', building: 'B07', details: '您的包裹已到達，請於 03/28 前取件。' },
         // Add additional notifications with building field
     ]);
     
@@ -144,9 +142,9 @@ const Notification_Admin = () => {
             {/* Filter Tabs */}
             <View style={styles.filterContainer}>
                 <FilterTab label="All" text="全部通知" onPress={() => setFilterBuilding('All')} />
-                <FilterTab label="A 棟" text="A 棟" onPress={() => setFilterBuilding('A 棟')} />
-                <FilterTab label="B 棟" text="B 棟" onPress={() => setFilterBuilding('B 棟')} />
-                <FilterTab label="C 棟" text="C 棟" onPress={() => setFilterBuilding('C 棟')} />
+                <FilterTab label="A" text="A 棟" onPress={() => setFilterBuilding('A 棟')} />
+                <FilterTab label="B" text="B 棟" onPress={() => setFilterBuilding('B 棟')} />
+                <FilterTab label="C" text="C 棟" onPress={() => setFilterBuilding('C 棟')} />
             </View>
 
             <ScrollView style={{marginHorizontal: 20 }}>

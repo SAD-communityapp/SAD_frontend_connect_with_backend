@@ -9,7 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import CommentSection_Admin from '../../components/CommentSection_Admin';
 
-const AnnouncementDetail_Admin = () => {
+const AnnouncementDetail_Admin = ({route}) => {
+  const { announcement } = route.params;
   // const [attachment, setAttachment] = useState(null); // 用于存储附件信息
 
   // // 模拟从后端获取附件信息的函数
@@ -32,15 +33,9 @@ const AnnouncementDetail_Admin = () => {
   //   }
   // };
 
-  const route = useRoute(); // 使用 useRoute 钩子获取路由参数
+  // const route = useRoute(); // 使用 useRoute 钩子获取路由参数
   //const { announcement } = route.params; // 从路由参数中获取公告对象
   const navigation = useNavigation()
-  const handleBack = (announcement) => {
-    // Handle navigation to the announcement details screen
-    //console.log("Navigating to announcement:", announcement.title);
-    navigation.goBack()
-
-  };
 
   return (
     // <View style={styles.container}>
@@ -53,28 +48,11 @@ const AnnouncementDetail_Admin = () => {
         <Header title = "公告詳細內容"/>
         <ScrollView style={{marginBottom: 16}}>
               <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>水塔清洗公告</Text>
-                <Text style={styles.titleText}>2024-04-01</Text>
+                <Text style={styles.titleText}>{announcement.title}</Text>
+                <Text style={styles.titleText}>{announcement.date}</Text>
               </View>
               <View style={styles.contentContainer}>
-                <Text>
-                親愛的住戶您好：{"\n\n"}
-
-                為了確保我們社區的用水品質，由清潔廠商<Text style={{ fontWeight: 'bold' }}>真乾淨</Text>依合約協助我們進行水塔的定期清洗和維護工作。以下是相關資訊。{"\n\n"}
-
-                （一）依據本社區 113 年度工作計畫事項{"\n"}
-                （二）時間：2024-04-09 ~ 2024-04-11 共三天{"\n"}
-                （三）作業範圍：{"\n"}
-                {"\t\t\t\t\t\t"}2024-04-09 清洗 A、B 棟{"\n"}
-                {"\t\t\t\t\t\t"}2025-04-10 清洗 C、D 棟{"\n"}
-                {"\t\t\t\t\t\t"}2025-04-11 清洗 E 棟{"\n"}
-                （四）清洗水塔當天 9:00 ~ 17:00 將會暫停供水，請住戶儲水備用，謝謝。{"\n"}
-                （五）清洗後用水前，請先將水龍頭打開排放管內汙濁髒水五分鐘，確保用水乾淨安全。{"\n\n"}
-
-                造成不便，敬請見諒，謝謝。{"\n\n"}
-                管委會敬上{"\n"}
-
-                </Text>
+                <Text>{announcement.content}</Text>
               </View>                          
               {/* 显示附件名称 */}
                 {/* {attachment && (
@@ -83,7 +61,7 @@ const AnnouncementDetail_Admin = () => {
                 <View style={{ flexDirection: 'row', marginHorizontal: 20, alignItems: 'center', gap: 8}}>
                   <Icon name = {"paperclip"} size={12} style={{ color: colors.primary_100, marginTop: 3}}></Icon>
                   <Text style = {{color: colors.primary_100,}}>
-                    113 年度工作計畫事項
+                    {announcement.attach}
                   </Text>
                 </View>
               <View style={styles.titleContainer}>

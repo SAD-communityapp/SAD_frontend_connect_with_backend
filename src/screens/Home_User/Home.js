@@ -32,49 +32,23 @@ LocaleConfig.locales['fr'] = {
   
   LocaleConfig.defaultLocale = 'fr';
 
-const announcements = [
-    { id: 1, title: '公告1', content: '這是公告1的內容' },
-    { id: 2, title: '公告2', content: '這是公告2的內容' },
-    { id: 3, title: '公告3', content: '這是公告3的內容' },
-    // 根据需要添加更多公告
-];
-
-const data = [
-    { name: "Customer Service", num: '56', dept:'custserv' },
-    { name: "Human Resources", num: '21', dept:'hr' },
-    { name: "Quality Assurance", num: '13', dept:'qa' },
-    { name: "Marketing", num: '30', dept:'mark' },
-    { name: "Research and Development", num: '17', dept:'rnd' },
-    { name: "Operations", num: '49', dept:'ops' },
-    { name: "Sales", num: '37', dept:'sales' },
-    { name: "Distribution", num: '26', dept:'dist' },
-    { name: "IT", num: '12', dept:'it' },
-]
-
-const column = [
-    { heading: 'Department', value: 'name' },
-    { heading: 'No. of Employees', value: 'num' },
-    { heading: 'Actions', value: 'dept' },
-];
-
-const TableHeadItem = ({ item }) => <th>{item.heading}</th>;
-
 const Home = () => {
 
     const navigation = useNavigation()
     const route = useRoute();
 
     const [announcements, setAnnouncements] = useState([
-        { id: 1, title: '水塔清洗公告', date: '2024/04/01', category: '最新消息'},
-        { id: 2, title: '停電公告', date: '2024/03/27', category: '最新消息'},
-        { id: 3, title: '南投一日遊', date: '2024/03/26', category: '里長轉知'},
-        { id: 4, title: '2024 2 月報表', date: '2024/03/01', category: '管委會相關'},
-        { id: 5, title: '2024 1 月報表', date: '2024/02/01', category: '管委會相關'},
-        { id: 6, title: '里民春酒', date: '2024/01/21', category: '里長轉知'},
-        { id: 7, title: '2023 12 月報表', date: '2024/01/01', category: '管委會相關'},
-        { id: 8, title: '水塔清洗公告', date: '2023/12/22', category: '最新消息'},
-        { id: 9, title: '2023 11 月報表', date: '2024/12/01', category: '管委會相關'},
-        { id: 10, title: '停電公告', date: '2023/11/20', category: '最新消息'},
+        { id: 1, title: '水塔清洗公告', date: '2024/04/01', attach: '113 年度工作計畫事項', category: '最新消息', content: "親愛的住戶您好：\n\n為了確保我們社區的用水品質，由清潔廠商真乾淨依合約協助我們進行水塔的定期清洗和維護工作。以下是相關資訊。\n\n（一）依據本社區 113 年度工作計畫事項\n（二）時間：2024-04-09 ~ 2024-04-11 共三天\n（三）作業範圍：\n\t2024-04-09 清洗 A、B 棟\n\t2024-04-10 清洗 C、D 棟\n\t2024-04-11 清洗 E 棟\n（四）清洗水塔當天 9:00 ~ 17:00 將會暫停供水，請住戶儲水備用，謝謝。\n（五）清洗後用水前，請先將水龍頭打開排放管內汙濁髒水五分鐘，確保用水乾淨安全。\n\n造成不便，敬請見諒，謝謝。\n\n管委會敬上\n"},
+        { id: 2, title: '停電公告', date: '2024/03/27', category: '最新消息', attach: '', content: "親愛的住戶您好：\n\n因配合台電公司進行設備維修，將於以下時間進行停電作業。請各位住戶提前做好準備。\n\n（一）停電時間：2024-03-30 早上 9:00 至 下午 5:00\n（二）停電範圍：\n\tA 棟、B 棟、C 棟\n（三）注意事項：\n\t1. 停電期間，請勿使用電梯。\n\t2. 停電期間，請關閉所有電器設備，以免恢復供電時引起意外。\n\t3. 請各位住戶提前儲備充足的水和食物。\n\n停電造成不便，敬請見諒，謝謝。\n\n管委會敬上\n"},
+        { id: 3, title: '南投一日遊', date: '2024/03/26', category: '里長轉知', attach: '', content: "以下是來自里長的轉知\n\n親愛的住戶您好：\n\n我們將於 2024 年 3 月 26 日舉辦南投一日遊活動，歡迎大家踴躍參加。具體活動安排如下：\n\n（一）集合時間：2024 年 3 月 26 日早上 8:00\n（二）集合地點：社區大門口\n（三）行程安排：\n\t1. 參觀日月潭\n\t2. 中午享用當地特色午餐\n\t3. 下午遊覽中台禪寺\n\t4. 傍晚返回社區\n\n活動名額有限，請提前報名。報名截止日期為 2024 年 3 月 20 日。\n\n期待大家的參與，謝謝！\n\n里長敬上\n"},
+        { id: 4, title: '2024 2 月報表', date: '2024/03/01', category: '管委會相關', attach: '2024 2 月報表', content: "親愛的住戶您好：附件為2024 2 月報表\n\n管委會敬上\n"},
+        { id: 5, title: '2024 1 月報表', date: '2024/02/01', category: '管委會相關', attach: '2024 1 月報表', content: "親愛的住戶您好：附件為2024 1 月報表\n\n管委會敬上\n"},
+        { id: 6, title: '里民春酒', date: '2024/01/21', category: '里長轉知', attach: '',content: "以下是來自里長的轉知\n\n親愛的住戶您好：\n\n為了增進鄰里關係，我們將於 2024 年 1 月 21 日舉辦里民春酒活動，歡迎大家參加。具體安排如下：\n\n（一）活動時間：2024 年 1 月 21 日下午 6:00\n（二）活動地點：社區大禮堂\n（三）活動內容：\n\t1. 春酒宴席\n\t2. 互動遊戲\n\t3. 抽獎活動\n\n請各位住戶提前報名，報名截止日期為 2024 年 1 月 15 日。\n\n期待大家的參與，謝謝！\n\n里長敬上\n"},
+
+        { id: 7, title: '2023 12 月報表', date: '2024/01/01', category: '管委會相關', attach: '', content: "親愛的住戶您好：附件為2024 12 月報表\n\n管委會敬上\n"},
+        { id: 8, title: '水塔清洗公告', date: '2023/12/22', category: '最新消息', attach: '', content: "hi"},
+        { id: 9, title: '2023 11 月報表', date: '2024/12/01', category: '管委會相關', attach: '', content: "hi"},
+        { id: 10, title: '停電公告', date: '2023/11/20', category: '最新消息', attach: '', content: "hi"},
         
         // Add additional announcement with building field
     ]);
@@ -103,14 +77,12 @@ const Home = () => {
     const totalPages = Math.ceil(announcements.length / itemsPerPage);
 
     
-    const AnnouncementItem = ({ id, date, title, category, isLast }) => {
+    const AnnouncementItem = ({ announcement, isLast }) => {
+        const { id, date, title, category, content, attach } = announcement;
     
     
         const handlePress = () => {
-            // Handle navigation to the announcement details screen
-            //console.log("Navigating to announcement:", announcement.title);
-            navigation.navigate("AnnouncementDetail")
-        
+            navigation.navigate("AnnouncementDetail", {announcement});
         };
 
         return (
@@ -217,10 +189,7 @@ const Home = () => {
                     {filteredAnnouncements.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((announcement, index, arr) => (
                         <AnnouncementItem
                             key={announcement.id}
-                            id={announcement.id}
-                            title={announcement.title}
-                            date={announcement.date}
-                            category={announcement.category}
+                            announcement={announcement}
                             isLast={index === arr.length - 1}
                         />
                     ))}

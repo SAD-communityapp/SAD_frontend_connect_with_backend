@@ -60,7 +60,7 @@ const AddNotification = () => {
         } else if (value === 'reservation') {
             setDetails(`您明日有預約公設，詳情請看預約紀錄。`);
         } else {
-            setDetails(''); // 如果不是上述类别，清空备注
+            setDetails('');
         }
     };
   
