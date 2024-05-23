@@ -6,71 +6,41 @@ import Header from '../../../components/Header'
 import Button from '../../../components/Button'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Reservation from './Reservation'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-
-
-const Calendar = () => {
-  // 獲取本週第一天
-  const currentDate = new Date();
-  const firstDayOfWeek = new Date(currentDate);
-  firstDayOfWeek.setDate(currentDate.getDate());
-  // 生成本週日期
-  const weekDates = [];
-  const weekDay = [];
-  const [selectedDate, setSelectedDate] = useState(null);
-  const handleDatePress = (date) => {
-      setSelectedDate(selectedDate => selectedDate && selectedDate.getTime() === date.getTime() ? null : date);
-  };
-  for (let i = 0; i < 7; i++) {
-    const day = new Date(firstDayOfWeek);
-    day.setDate(firstDayOfWeek.getDate() + i);
-    weekDates.push(day);
-    weekDay.push(day.getDay()); 
-  }
-
-  return (
-    <View>
-        <View style={styles.weekContainer}>
-            {weekDates.map((date, index) => (
-                <View key={index} style={styles.dateWrapper}>
-                    <Text style={styles.weekDayText}>{['週日', '週一', '週二', '週三', '週四', '週五', '週六'][weekDay[index % 7]]}</Text>
-                    <TouchableOpacity 
-                        onPress={() => handleDatePress(date)}
-                        style={[
-                        styles.dateButton,
-                        selectedDate && selectedDate.getDate() === date.getDate() ? styles.selectedDateButton : styles.unSelectedDateButton
-                        ]}
-                        activeOpacity={1}
-                    >
-                        <Text style={[
-                        styles.dateText,
-                        selectedDate && selectedDate.getDate() === date.getDate() ? styles.selectedDate : styles.unselectedDate
-                        ]}>{date.toLocaleDateString(undefined, { month: '2-digit', day: 'numeric' })}</Text>
-                    </TouchableOpacity>
-                </View>
-            ))}
-        </View>
-        <View style={{flexDirection: 'row', gap: 16, justifyContent: 'flex-end', marginVertical: 16}}>
-            <View style={{ width: 20, height: 20, backgroundColor: colors.text_white, borderRadius: 5 }}></View>
-            <Text style={{...Small_Body_Regular}}>可選</Text>
-            <View style={{ width: 20, height: 20, backgroundColor: colors.primary_100, borderRadius: 5 }}></View>
-            <Text style={{...Small_Body_Regular}}>已選</Text>
-        </View>
-        {selectedDate && <TimeSlot selectedDate={selectedDate}/>}
-    </View>
-
-
-  );
-};
-
-
-const TimeSlot = ({ selectedDate }) => {
-    // 假設這是從服務器獲取的可預約時段資料
+const MeetingRoom  = () => {
+    const navigation = useNavigation()
+    const route = useRoute();
+    const [ maxId, setMaxId] = useState(10);
+    const weekDates = [];
+    const weekDay = [];
+    const [showReservation, setShowReservation] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
     const timeSlots = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
     const rows = [];
     const itemsPerRow = 4;
     const [selectedTime, setSelectedTimes] = useState([]);
+    // 獲取本週第一天
+    const currentDate = new Date();
+    const firstDayOfWeek = new Date(currentDate);
+    firstDayOfWeek.setDate(currentDate.getDate());
+
+    const handleReservation = () => {
+        setShowReservation(true);
+    }
+
+    // 生成本週日期
+    
+    const handleDatePress = (date) => {
+        setSelectedDate(selectedDate => selectedDate && selectedDate.getTime() === date.getTime() ? null : date);
+    };
+
+    for (let i = 0; i < 7; i++) {
+        const day = new Date(firstDayOfWeek);
+        day.setDate(firstDayOfWeek.getDate() + i);
+        weekDates.push(day);
+        weekDay.push(day.getDay()); 
+    }
     
     for (let i = 0; i < timeSlots.length; i += itemsPerRow) {
         rows.push(timeSlots.slice(i, i + itemsPerRow));
@@ -84,25 +54,34 @@ const TimeSlot = ({ selectedDate }) => {
         setSelectedTimes(prevSelectedTime => prevSelectedTime.filter((_, index) => index !== indexToRemove));
     }
     
-    const navigation = useNavigation()
+    const resetForm = () => {
+        setSelectedDate(null);
+        setSelectedTimes([]);
+    };
 
-    const handleReservation  = () =>{
-        navigation.navigate('Reservation', "records");
+    const handleSubmit  = () =>{
+        const newRecord = {
+            key: maxId + 1,
+            id: maxId + 1,
+            title: "會議室",
+
+            date: selectedDate.toLocaleDateString('zh-Hant', { year: 'numeric', month: '2-digit', day: '2-digit' }), // 使用 formatDate 函數來格式化日期
+            hasDot: true,
+            timePeriods: selectedTime.map(time => {
+                const start = new Date(time);
+                const end = new Date(time);
+                end.setHours(end.getHours() + 1);
+                const startTimeString = start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                const endTimeString = end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                return `${startTimeString} ~ ${endTimeString}`;
+            }),
+        };
+
+        navigation.navigate('Reservation', { newRecord });
+
+        resetForm();
+        setMaxId(maxId + 1); // 更新 maxId
     }
-
-    // const handleReservation = async () => {
-    //     // 向后端发送预订信息的逻辑
-    //     try {
-    //         // 发送预订信息的请求
-    //         // await sendReservationToBackend(selectedTime, selectedDate);
-            
-    //         // 预订成功后导航到 Reservation 的 record tab
-    //         navigation.navigate('Reservation', { screen: 'Record' });
-    //     } catch (error) {
-    //         console.error('Error sending reservation:', error);
-    //     }
-    // };
-
 
     const handleTimePress = (slot) => {
         const time = new Date(selectedDate);
@@ -121,103 +100,6 @@ const TimeSlot = ({ selectedDate }) => {
         }
     };
 
-    return (
-        <View>
-            <View style={{ gap: 16, marginBottom: 16 }}>
-                {rows.map((row, index) => (
-                    <View key={index} style={styles.rowContainer}>
-                        {row.map((slot, idx) => {
-                            const time = new Date(selectedDate);
-                            const [hour, minute] = slot.split(':');
-                            time.setHours(parseInt(hour), parseInt(minute), 0, 0);
-                            const isSelected = selectedTime.some(selected => selected.getTime() === time.getTime());
-
-                            return (
-                                <TouchableOpacity
-                                    activeOpacity={1}
-                                    key={idx}
-                                    style={[
-                                        isSelected ? styles.selectedTimeButton : styles.unSelectedTimeButton
-                                    ]}
-                                    onPress={() => handleTimePress(slot)}
-                                >
-                                    <Text style={[isSelected ? styles.selectedTime : styles.unSelectedTime]}>
-                                        {slot}
-                                    </Text>
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </View>
-                ))}
-            </View>
-            <View style={styles.separator}></View>
-            <Text style={styles.titleText}>已選時段</Text>
-            <Text>{selectedDate.toLocaleDateString([], { month: '2-digit', day: 'numeric' })}</Text>
-            <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 16}}>
-                
-                {selectedTime.map((time, index) => (
-                    <View style={styles.timeContainer}  key={index}>
-                        <Text style= {{...Small_Body_Regular, color: colors.primary_100}}key={index}>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} ~{' '}
-                        {(() => {
-                            const nextTime = new Date(time);
-                            nextTime.setHours(nextTime.getHours() + 1);
-                            return nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                        })()}</Text>
-                        <Entypo name={"cross"} style={{color: colors.primary_100}}  onPress={() => handleRemoveTime(index)} />
-                    </View>
-                ))}
-            </View>
-            <Button
-                title = "確定預約"
-                primary_filled={true} 
-                onPress={handleReservation}
-                disabled={selectedTime.length === 0}
-                style={{alignSelf: 'center', marginTop: 16}}
-                
-                >
-            </Button>
-
-        </View>
-    
-    );
-};
-
-
-const MeetingRoomReservation = () => {
-      
-    return (
-        <View style={{backgroundColor: colors.background_white, height: '100%'}}>
-            <Header title = "會議室預約"/>
-            <ScrollView style={styles.container}>                
-                <Image source={require("../../../assets/img/meetingRoom.png")} style={styles.image}/>
-                <Text style = {styles.titleText}>會議室</Text>
-                <View style={styles.contentContainer}>
-                    <Text style={styles.contentText}>開放時間</Text>
-                    <Text style={styles.contentText}>每天 09:00~21:00</Text>
-                </View>
-                <View style={styles.contentContainer}>
-                    <Text style={styles.contentText}>預約單位時間</Text>
-                    <Text style={styles.contentText}>每 60 分鐘</Text>
-                </View>
-                <View style={styles.contentContainer}>
-                    <Text style={styles.contentText}>可預約日期</Text>
-                    <Text style={styles.contentText}>即日起至一周以內</Text>
-                </View>
-                <View style={styles.separator}></View>
-                <Text style = {styles.titleText}>時段選擇</Text>
-                <Calendar/>
-                
-            </ScrollView>
-                    
-        </View>
-    )
-}
-
-const MeetingRoom  = () => {
-    const [showReservation, setShowReservation] = useState(false);
-    const handleReservation = () => {
-        setShowReservation(true);
-    }
     
     return (
         <View style={{backgroundColor: colors.background_white, height: '100%'}}>
@@ -244,7 +126,7 @@ const MeetingRoom  = () => {
                         <Text style = {styles.titleText}>設施簡介</Text>
                         <View style={styles.contentContainer}>
                             <Text style={styles.contentText}>        
-                                {"\t\t\t\t\t"}有大中小三種會議室可供選擇，提供專業會議設備，適合面試、小型會議、家教使用。附帶大電視及無線投影設備。
+                                {"\t\t\t\t\t"}提供專業會議設備，適合面試、小型會議、家教使用。附帶大電視及無線投影設備。
                             </Text>
                         </View>
                     </ScrollView>
@@ -255,7 +137,114 @@ const MeetingRoom  = () => {
                     </View>      
                 </View>
                 ) : (
-                    <MeetingRoomReservation/>
+                    <View style={{backgroundColor: colors.background_white, height: '100%'}}>
+                        <Header title = "會議室預約"/>
+                        <ScrollView style={styles.container}>                
+                            <Image source={require("../../../assets/img/meetingRoom.png")} style={styles.image}/>
+                            <Text style = {styles.titleText}>會議室</Text>
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.contentText}>開放時間</Text>
+                                <Text style={styles.contentText}>每天 09:00~21:00</Text>
+                            </View>
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.contentText}>預約單位時間</Text>
+                                <Text style={styles.contentText}>每 60 分鐘</Text>
+                            </View>
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.contentText}>可預約日期</Text>
+                                <Text style={styles.contentText}>即日起至一周以內</Text>
+                            </View>
+                            <View style={styles.separator}></View>
+                            <Text style = {styles.titleText}>時段選擇</Text>
+                            <View>
+                                <View style={styles.weekContainer}>
+                                    {weekDates.map((date, index) => (
+                                        <View key={index} style={styles.dateWrapper}>
+                                            <Text style={styles.weekDayText}>{['週日', '週一', '週二', '週三', '週四', '週五', '週六'][weekDay[index % 7]]}</Text>
+                                            <TouchableOpacity 
+                                                onPress={() => handleDatePress(date)}
+                                                style={[
+                                                styles.dateButton,
+                                                selectedDate && selectedDate.getDate() === date.getDate() ? styles.selectedDateButton : styles.unSelectedDateButton
+                                                ]}
+                                                activeOpacity={1}
+                                            >
+                                                <Text style={[
+                                                styles.dateText,
+                                                selectedDate && selectedDate.getDate() === date.getDate() ? styles.selectedDate : styles.unselectedDate
+                                                ]}>{date.toLocaleDateString(undefined, { month: '2-digit', day: 'numeric' })}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    ))}
+                                </View>
+                                {selectedDate && 
+                                    <View>
+                                        <View style={{flexDirection: 'row', gap: 16, justifyContent: 'flex-end', marginVertical: 16}}>
+                                            <View style={{ width: 20, height: 20, backgroundColor: colors.text_white, borderRadius: 5 }}></View>
+                                            <Text style={{...Small_Body_Regular}}>可選</Text>
+                                            <View style={{ width: 20, height: 20, backgroundColor: colors.primary_100, borderRadius: 5 }}></View>
+                                            <Text style={{...Small_Body_Regular}}>已選</Text>
+                                        </View>
+                                        <View style={{ gap: 16, marginBottom: 16 }}>
+                                            {rows.map((row, index) => (
+                                                <View key={index} style={styles.rowContainer}>
+                                                    {row.map((slot, idx) => {
+                                                        const time = new Date(selectedDate);
+                                                        const [hour, minute] = slot.split(':');
+                                                        time.setHours(parseInt(hour), parseInt(minute), 0, 0);
+                                                        const isSelected = selectedTime.some(selected => selected.getTime() === time.getTime());
+                            
+                                                        return (
+                                                            <TouchableOpacity
+                                                                activeOpacity={1}
+                                                                key={idx}
+                                                                style={[
+                                                                    isSelected ? styles.selectedTimeButton : styles.unSelectedTimeButton
+                                                                ]}
+                                                                onPress={() => handleTimePress(slot)}
+                                                            >
+                                                                <Text style={[isSelected ? styles.selectedTime : styles.unSelectedTime]}>
+                                                                    {slot}
+                                                                </Text>
+                                                            </TouchableOpacity>
+                                                        );
+                                                    })}
+                                                </View>
+                                            ))}
+                                        </View>
+                                        <View style={styles.separator}></View>
+                                        <Text style={styles.titleText}>已選時段</Text>
+                                        <Text>{selectedDate.toLocaleDateString('zh-Hant', { year: 'numeric', month: '2-digit', day: '2-digit' })}</Text>
+
+                                        <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 16}}>
+                                            
+                                            {selectedTime.map((time, index) => (
+                                                <View style={styles.timeContainer}  key={index}>
+                                                    <Text style= {{...Small_Body_Regular, color: colors.primary_100}}key={index}>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} ~{' '}
+                                                    {(() => {
+                                                        const nextTime = new Date(time);
+                                                        nextTime.setHours(nextTime.getHours() + 1);
+                                                        return nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                                                    })()}</Text>
+                                                    <Entypo name={"cross"} style={{color: colors.primary_100}}  onPress={() => handleRemoveTime(index)} />
+                                                </View>
+                                            ))}
+                                        </View>
+                                        <Button
+                                            title = "確定預約"
+                                            primary_filled={true} 
+                                            onPress={handleSubmit}
+                                            disabled={selectedTime.length === 0}
+                                            style={{alignSelf: 'center', marginTop: 16}}
+                                            
+                                            >
+                                        </Button>
+                            
+                                    </View>
+                                }
+                            </View>
+                        </ScrollView>
+                    </View>
                 )}
         </View>
         

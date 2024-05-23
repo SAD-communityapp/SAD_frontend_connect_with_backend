@@ -13,14 +13,38 @@ const CommentDetail = ({navigation}) =>{
     const [inputText, setInputText] = useState('');
     const handleAddComment = () => {
         if (inputText.trim() !== '') {
-          setComments([...comments, { id: comments.length + 1, text: inputText }]);
-          setInputText('');
-        }
+            setComments([...comments, { id: comments.length + 1, content: inputText, name: '小黃雞', time: '剛剛', img: require("../../../assets/img/image12.png") }]);
+            setInputText('');
+          }
       };
     const [username, setUsername] = useState("小黃雞");
     const handleUsernameChange = (text) => {
         setUsername(text);
     };
+
+    const CommentItem = ({ comment}) => {
+        const {name, img, content, time } = comment;
+    
+        return (
+          <View style={styles.commentContainer}>
+            <Image
+            source={img}
+            style={styles.image}
+            >
+            
+            </Image>
+            <View style={styles.commentTextContainer}>{/*main comment*/}
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={{color:colors.tertiary_100}}>{name}{/*name*/}</Text>
+                <Text style={{color:colors.tertiary_100}}>{time}{/*time*/}</Text>
+              </View>
+              <Text>{content}{/*content*/}</Text>
+            </View>
+            
+          </View>
+        );
+    };
+
     return(
         <View style={{backgroundColor: colors.background_white, height: '100%'}}>
             <Header title="意見反饋詳細"/>
@@ -67,6 +91,16 @@ const CommentDetail = ({navigation}) =>{
                     />
                     <Send onPress={handleAddComment} disabled={!inputText}/>
                 </View>
+                {comments.length > 0 && (
+                    comments.map(comment => (
+                        <CommentItem
+                            key={comment.id}
+                            comment={comment}
+                        />
+                    ))
+                )
+                
+                }
             </View>
             
         </View>
@@ -132,5 +166,57 @@ const styles = StyleSheet.create({
       borderWidth: 2,
       borderColor: colors.tertiary_75,
     },
+      image: {
+        height: 40,
+        width: 40,
+        borderRadius: 100,
+        borderWidth: 2,
+        borderColor: colors.tertiary_75,
+      },
+      commentContainer: {
+        marginTop: 16,
+        flexDirection: 'row',
+        flex: 1,
+      },
+      commentTextContainer:{
+        gap: 8,
+        flex: 1,
+      },
+      replyContainer: {
+        flexDirection: 'row',
+        gap: 8,
+        flex: 1,
+        marginLeft: 60,
+        marginRight: 20,
+      },
+      replyTextContainer:{
+        gap: 8,
+        flex: 1,
+      },
+      replyInputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+        gap: 4
+      },
+      replyInput: {
+        flex: 1,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderWidth: 1.5,
+        borderColor: colors.tertiary_75,
+        borderRadius: 8,
+        ...Smallest_Body_Regular,
+        color: colors.text_black,
+        backgroundColor: colors.text_white,
+        height: 30,
+      },
+      replyButton: {
+        color: colors.tertiary_100,
+        marginTop: 8,
+      },
+      comments:{
+    
+      }
 })
 export default CommentDetail

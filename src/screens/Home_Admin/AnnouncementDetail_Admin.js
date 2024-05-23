@@ -67,7 +67,7 @@ const AnnouncementDetail_Admin = ({route}) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>留言區</Text>
               </View>
-              <CommentSection_Admin></CommentSection_Admin>
+              <CommentSection_Admin aID = {announcement.id}></CommentSection_Admin>
 
         </ScrollView>
     </View>

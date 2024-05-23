@@ -29,10 +29,10 @@ const SigninScreen = ({navigation}) =>{
 
     //按下登入鍵之後 然後最下面註解掉的是芷妤姊給我的扣 好像是
     const handleSignIn = () =>{
-        if(username === 'admin' || username === 'Admin'){
+        if(username === 'admin' && password === 'admin'){
             navigation.navigate("MainAppAdmin")
         }
-        else if (username === 'user' || username === 'User'){
+        else if (username === 'A0501' && password === 'user'){
             navigation.navigate("MainAppUser")
         }
         else {

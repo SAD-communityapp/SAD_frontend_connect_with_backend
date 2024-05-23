@@ -46,7 +46,7 @@ const Notification = () => {
 
     const [viewedNotifications, setViewedNotifications] = useState(new Set());
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 13;
+    const itemsPerPage = 10;
     const totalPages = Math.ceil(notifications.length / itemsPerPage);
 
     const NotificationItem = ({ id, title, date, hasDot, details, onExpand, isLast }) => {
@@ -126,7 +126,7 @@ const Notification = () => {
             </View>
             <ScrollView style={{ marginTop: 16, marginHorizontal: 25 }}>
                 <View style={styles.tableHeader}>
-                    <Text style={[styles.headerText, { flex: 3 }]}>日期</Text>
+                    <Text style={[styles.headerText, { flex: 3 }]}>通知時間</Text>
                     <Text style={[styles.headerText, { flex: 3 }]}>標題</Text>
                     <Text style={[styles.headerText, { flex: 2 }]}>狀態</Text>
                     <Text style={[styles.headerText, { flex: 1 }]}> </Text>
@@ -147,7 +147,7 @@ const Notification = () => {
                 ))}
                 <View style={styles.pagination}>
                     <Button primary_filled={true} iconLibrary={AntDesign} icon="left" onPress={() => handlePageChange('prev')} />
-                    <Text style={{ marginHorizontal: 20, fontSize: 16, color: colors.text_dark }}>{currentPage}</Text>
+                    <Text style={{ marginHorizontal: 20, fontSize: 16, color: colors.text_dark }}>{currentPage} / {totalPages}</Text>
                     <Button primary_filled={true} iconLibrary={AntDesign} icon="right" onPress={() => handlePageChange('next')} />
                 </View>
             </ScrollView>
