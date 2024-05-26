@@ -11,6 +11,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import DatePicker from 'react-native-date-picker'
 import DropdownComponent from '../../components/DropDown'
 import { Calendar } from 'react-native-calendars'
+import axios from 'axios';
+
 
 const Add_Announcement = () => {
     const navigation = useNavigation();
@@ -67,16 +69,24 @@ const Add_Announcement = () => {
     const submitAnnouncement = () => {
 
         const newAnnouncement = {
-            id: maxId + 1,
-            title: title,
-            date: formatDate(new Date()), // 使用 formatDate 函數來格式化日期
-            category: selectedCategory,
-            content: content, // 傳遞備註內容作為 details
-            calendar: isEnabled
+            "title": title,
+            "date": formatDate(new Date()), // 使用 formatDate 函數來格式化日期
+            "category": selectedCategory,
+            "content": content, // 傳遞備註內容作為 details
+            "calendar": isEnabled,
+            "start_date": startingDay,
+            "end_date": endingDay
         };
+        axios.post('http://10.0.2.2:3000/announcements', newAnnouncement)
+            .then((response) => {
+                const result = response.data;
+                console.log(result); // Access response data directly
+                resetForm();
+            })
+            .catch((error) => {
+                console.log(error)
+            });
     
-        navigation.navigate('Home_Admin', { newAnnouncement });
-        resetForm();
 
         console.log('Title:', title);
         console.log('Contents:', content);

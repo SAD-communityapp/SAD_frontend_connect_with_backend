@@ -50,8 +50,11 @@ const AnnouncementDetail = ({route}) => {
                 <Text style={styles.titleText}>{announcement.date}</Text>
               </View>
               <View style={styles.contentContainer}>
-                <Text>{announcement.content}</Text>
-              </View>                          
+                {announcement.content.split('\n').map((line, index) => (
+                  <Text key={index}>{line}</Text>
+                ))}
+              </View>
+                     
               {/* 显示附件名称 */}
                 {/* {attachment && (
                   <Text>附件：{attachment.name}</Text>

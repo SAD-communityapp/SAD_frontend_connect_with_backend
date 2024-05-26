@@ -9,9 +9,11 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import CommentSection_Admin from '../../components/CommentSection_Admin';
 
+
 const AnnouncementDetail_Admin = ({route}) => {
   const { announcement } = route.params;
-  // const [attachment, setAttachment] = useState(null); // 用于存储附件信息
+  console.log(announcement.content)
+    // const [attachment, setAttachment] = useState(null); // 用于存储附件信息
 
   // // 模拟从后端获取附件信息的函数
   // const fetchAttachment = () => {
@@ -37,6 +39,7 @@ const AnnouncementDetail_Admin = ({route}) => {
   //const { announcement } = route.params; // 从路由参数中获取公告对象
   const navigation = useNavigation()
 
+  
   return (
     // <View style={styles.container}>
     //   <Text style={styles.title}>{announcement.title}</Text>

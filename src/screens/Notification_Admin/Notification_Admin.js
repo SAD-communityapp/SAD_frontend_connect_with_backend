@@ -6,7 +6,8 @@ import colors from "../../assets/colors/colors";
 import Button from '../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { H3, Small_Body_Bold, Body_Regular, Body_bold } from '../../assets/TextStyles';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
 
 
 const Notification_Admin = () => {
@@ -15,43 +16,61 @@ const Notification_Admin = () => {
     const route = useRoute();
     
 
-    const [notifications, setNotifications] = useState([
-        { id: 33, title: '水塔清洗通知', date: '2024/03/21 19:50', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 34, title: '包裹到貨通知', date: '2024/03/18 11:20', building: 'B07', details: '您的包裹已到達，請於 03/28 前取件。' },
-        { id: 1, title: '水塔清洗通知', date: '2024/03/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 2, title: '包裹到貨通知', date: '2024/03/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 03/28 前取件。' },
-        { id: 3, title: '撞球桌預約提醒', date: '2024/03/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 4, title: '撞球桌預約提醒', date: '2024/03/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 5, title: '包裹到貨通知', date: '2024/03/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 03/23 前取件。' },
-        { id: 6, title: '包裹到貨通知', date: '2024/03/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 03/22 前取件。' },
-        { id: 7, title: 'KTV 預約提醒', date: '2024/03/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 8, title: '管理費繳費通知', date: '2024/03/05 12:20', building: 'A05-1', details: '請於 03/15 前繳交三月份管理費。' },
-        { id: 9, title: '水塔清洗通知', date: '2024/02/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 B 棟清洗水塔，詳情請看相關公告。' },
-        { id: 10, title: '包裹到貨通知', date: '2024/02/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 02/28 前取件。' },
-        { id: 11, title: '撞球桌預約提醒', date: '2024/02/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 12, title: '撞球桌預約提醒', date: '2024/02/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 13, title: '包裹到貨通知', date: '2024/02/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 02/23 前取件。' },
-        { id: 14, title: '包裹到貨通知', date: '2024/02/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 02/22 前取件。' },
-        { id: 15, title: 'KTV 預約提醒', date: '2024/02/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 16, title: '管理費繳費通知', date: '2024/02/05 12:20', building: 'A05-1', details: '請於 02/15 前繳交二月份管理費。' },
-        { id: 17, title: '水塔清洗通知', date: '2024/01/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 C 棟清洗水塔，詳情請看相關公告。' },
-        { id: 18, title: '包裹到貨通知', date: '2024/01/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 01/28 前取件。' },
-        { id: 19, title: '撞球桌預約提醒', date: '2024/01/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 20, title: '撞球桌預約提醒', date: '2024/01/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 21, title: '包裹到貨通知', date: '2024/01/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 01/23 前取件。' },
-        { id: 22, title: '包裹到貨通知', date: '2024/01/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 01/22 前取件。' },
-        { id: 23, title: 'KTV 預約提醒', date: '2024/01/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 24, title: '管理費繳費通知', date: '2024/01/05 12:20', building: 'A05-1', details: '請於 01/15 前繳交三月份管理費。' },
-        { id: 25, title: '水塔清洗通知', date: '2023/12/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 26, title: '包裹到貨通知', date: '2023/12/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 12/28 前取件。' },
-        { id: 27, title: '撞球桌預約提醒', date: '2023/12/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 28, title: '撞球桌預約提醒', date: '2023/12/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 29, title: '包裹到貨通知', date: '2023/12/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 12/23 前取件。' },
-        { id: 30, title: '包裹到貨通知', date: '2023/12/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 12/22 前取件。' },
-        { id: 31, title: 'KTV 預約提醒', date: '2023/12/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 32, title: '管理費繳費通知', date: '2023/12/05 12:20', building: 'A05-1', details: '請於 12/15 前繳交二月份管理費。' },
-        // Add additional notifications with building field
-    ]);
+    // const [notifications, setNotifications] = useState([
+    //     { id: 33, title: '水塔清洗通知', date: '2024/03/21 19:50', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 34, title: '包裹到貨通知', date: '2024/03/18 11:20', building: 'B07', details: '您的包裹已到達，請於 03/28 前取件。' },
+    //     { id: 1, title: '水塔清洗通知', date: '2024/03/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 2, title: '包裹到貨通知', date: '2024/03/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 03/28 前取件。' },
+    //     { id: 3, title: '撞球桌預約提醒', date: '2024/03/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 4, title: '撞球桌預約提醒', date: '2024/03/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 5, title: '包裹到貨通知', date: '2024/03/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 03/23 前取件。' },
+    //     { id: 6, title: '包裹到貨通知', date: '2024/03/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 03/22 前取件。' },
+    //     { id: 7, title: 'KTV 預約提醒', date: '2024/03/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 8, title: '管理費繳費通知', date: '2024/03/05 12:20', building: 'A05-1', details: '請於 03/15 前繳交三月份管理費。' },
+    //     { id: 9, title: '水塔清洗通知', date: '2024/02/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 B 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 10, title: '包裹到貨通知', date: '2024/02/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 02/28 前取件。' },
+    //     { id: 11, title: '撞球桌預約提醒', date: '2024/02/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 12, title: '撞球桌預約提醒', date: '2024/02/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 13, title: '包裹到貨通知', date: '2024/02/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 02/23 前取件。' },
+    //     { id: 14, title: '包裹到貨通知', date: '2024/02/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 02/22 前取件。' },
+    //     { id: 15, title: 'KTV 預約提醒', date: '2024/02/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 16, title: '管理費繳費通知', date: '2024/02/05 12:20', building: 'A05-1', details: '請於 02/15 前繳交二月份管理費。' },
+    //     { id: 17, title: '水塔清洗通知', date: '2024/01/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 C 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 18, title: '包裹到貨通知', date: '2024/01/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 01/28 前取件。' },
+    //     { id: 19, title: '撞球桌預約提醒', date: '2024/01/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 20, title: '撞球桌預約提醒', date: '2024/01/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 21, title: '包裹到貨通知', date: '2024/01/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 01/23 前取件。' },
+    //     { id: 22, title: '包裹到貨通知', date: '2024/01/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 01/22 前取件。' },
+    //     { id: 23, title: 'KTV 預約提醒', date: '2024/01/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 24, title: '管理費繳費通知', date: '2024/01/05 12:20', building: 'A05-1', details: '請於 01/15 前繳交三月份管理費。' },
+    //     { id: 25, title: '水塔清洗通知', date: '2023/12/21 12:20', building: 'A05-1', details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 26, title: '包裹到貨通知', date: '2023/12/18 12:20', building: 'A05-1', details: '您的包裹已到達，請於 12/28 前取件。' },
+    //     { id: 27, title: '撞球桌預約提醒', date: '2023/12/17 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 28, title: '撞球桌預約提醒', date: '2023/12/16 12:20', building: 'A05-1', details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 29, title: '包裹到貨通知', date: '2023/12/13 12:20', building: 'A05-1', details: '您的包裹已到達，請於 12/23 前取件。' },
+    //     { id: 30, title: '包裹到貨通知', date: '2023/12/12 12:20', building: 'A05-1', details: '您的包裹已到達，請於 12/22 前取件。' },
+    //     { id: 31, title: 'KTV 預約提醒', date: '2023/12/08 12:20', building: 'A05-1', details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 32, title: '管理費繳費通知', date: '2023/12/05 12:20', building: 'A05-1', details: '請於 12/15 前繳交二月份管理費。' },
+    //     // Add additional notifications with building field
+    // ]);
+    const [notifications, setNotifications] = useState([]);
+    useFocusEffect(
+        React.useCallback(() => {
+            // 重新執行你的 useEffect 邏輯
+            axios.get('http://10.0.2.2:3000/notifications')
+              .then((response) => {
+                setNotifications(response.data);
+              })
+              .catch((error) => {
+                console.log(error)
+              });
+
+            // 確保清理函數返回取消訂閱的邏輯
+            return () => {
+                // 清理函數（如果需要的話）
+            };
+        }, [])
+    );
     
     useEffect(() => {
         if (route.params?.newNotification) {
@@ -61,8 +80,11 @@ const Notification_Admin = () => {
 
     const [filterBuilding, setFilterBuilding] = useState('All'); // Filter state
     
-    const filteredNotifications = filterBuilding === 'All' ? notifications : notifications.filter(n => n.building.includes(filterBuilding));
-
+    const filteredNotifications = filterBuilding === 'All' 
+        ? notifications 
+        : notifications.filter(n => {
+            return n.account.startsWith(filterBuilding)
+        });
     const [viewedNotifications, setViewedNotifications] = useState(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -174,9 +196,9 @@ const Notification_Admin = () => {
             {/* Filter Tabs */}
             <View style={styles.filterContainer}>
                 <FilterTab label="All" text="全部通知" onPress={() => setFilterBuilding('All')} />
-                <FilterTab label="A" text="A 棟" onPress={() => setFilterBuilding('A 棟')} />
-                <FilterTab label="B" text="B 棟" onPress={() => setFilterBuilding('B 棟')} />
-                <FilterTab label="C" text="C 棟" onPress={() => setFilterBuilding('C 棟')} />
+                <FilterTab label="A" text="A 棟" onPress={() => setFilterBuilding('A')} />
+                <FilterTab label="B" text="B 棟" onPress={() => setFilterBuilding('B')} />
+                <FilterTab label="C" text="C 棟" onPress={() => setFilterBuilding('C')} />
             </View>
 
             <ScrollView style={{marginHorizontal: 20 }}>
@@ -186,18 +208,21 @@ const Notification_Admin = () => {
                     <Text style={[styles.headerText, { flex: 2 }]}>門牌</Text>
                     <Text style={[styles.headerText, { flex: 1 }]}></Text>
                 </View>
-                {filteredNotifications.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((notification, index, arr) => (
+                {
+                    filteredNotifications.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((notification, index, arr) => (
                     <NotificationItem
                         key={notification.id}
                         id={notification.id}
                         title={notification.title}
                         date={notification.date}
-                        building={notification.building}
+                        building={notification.account}
                         details={notification.details}
                         onExpand={() => {}}
                         isLast={index === arr.length - 1}
                     />
-                ))}
+                ))
+                } 
+
                 <View style={styles.pagination}>
                     <Button primary_filled={true} iconLibrary={AntDesign} icon="left" onPress={() => handlePageChange('prev')} />
                     <Text style={{ marginHorizontal: 20, fontSize: 16, color: colors.text_dark }}>{currentPage} / {totalPages}</Text>

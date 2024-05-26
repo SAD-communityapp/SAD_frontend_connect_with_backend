@@ -10,6 +10,7 @@ import { Body_Regular } from '../../assets/TextStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
 
 const AddNotification = () => {
     const navigation = useNavigation();
@@ -86,15 +87,22 @@ const AddNotification = () => {
     const [isIndividualUnitVisible, setIsIndividualUnitVisible] = useState(false);
 
     const submitNotification = () => {
-      const newNotification = {
-          id: maxId + 1,
-          title: category,
-          date: formatDate(new Date()), // 使用 formatDate 函數來格式化日期
-          building: recipient === '個體戶' ? individualUnit : recipient,
-          details: details // 傳遞備註內容作為 details
-      };
-  
-      navigation.navigate('Notification', { newNotification });
+        const newNotification = {
+            "title": category,
+            "account": recipient === '個體戶' ? individualUnit : recipient[0],
+            "details": details // 傳遞備註內容作為 details
+        };
+        console.log(newNotification);
+        axios.post('http://10.0.2.2:3000/notifications', newNotification)
+              .then((response) => {
+                  const result = response.data;
+                  console.log(result); // Access response data directly
+                  resetForm();
+              })
+              .catch((error) => {
+                  console.log(error)
+              });
+      navigation.navigate('Notification');
       resetForm();
     };
   

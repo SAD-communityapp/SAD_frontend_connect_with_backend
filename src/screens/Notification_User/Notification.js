@@ -6,43 +6,64 @@ import colors from "../../assets/colors/colors";
 import Button from '../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { H3, Small_Body_Bold, Body_Regular } from '../../assets/TextStyles';
-
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
 const Notification = () => {
-    const [notifications, setNotifications] = useState([
-        { id: 1, title: '水塔清洗通知', date: '2024/03/21 12:20', hasDot: true, details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 2, title: '包裹到貨通知', date: '2024/03/18 12:20', hasDot: true, details: '您的包裹已到達，請於 03/28 前取件。' },
-        { id: 3, title: '撞球桌預約提醒', date: '2024/03/17 12:20', hasDot: true, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 4, title: '撞球桌預約提醒', date: '2024/03/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 5, title: '包裹到貨通知', date: '2024/03/13 12:20', hasDot: false, details: '您的包裹已到達，請於 03/23 前取件。' },
-        { id: 6, title: '包裹到貨通知', date: '2024/03/12 12:20', hasDot: false, details: '您的包裹已到達，請於 03/22 前取件。' },
-        { id: 7, title: 'KTV 預約提醒', date: '2024/03/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 8, title: '管理費繳費通知', date: '2024/03/05 12:20', hasDot: false, details: '請於 03/15 前繳交三月份管理費。' },
-        { id: 9, title: '水塔清洗通知', date: '2024/02/21 12:20', hasDot: false, details: '明日 09:00~17:00 B 棟清洗水塔，詳情請看相關公告。' },
-        { id: 10, title: '包裹到貨通知', date: '2024/02/18 12:20', hasDot: true, details: '您的包裹已到達，請於 02/28 前取件。' },
-        { id: 11, title: '撞球桌預約提醒', date: '2024/02/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 12, title: '撞球桌預約提醒', date: '2024/02/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 13, title: '包裹到貨通知', date: '2024/02/13 12:20', hasDot: true, details: '您的包裹已到達，請於 02/23 前取件。' },
-        { id: 14, title: '包裹到貨通知', date: '2024/02/12 12:20', hasDot: false, details: '您的包裹已到達，請於 02/22 前取件。' },
-        { id: 15, title: 'KTV 預約提醒', date: '2024/02/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 16, title: '管理費繳費通知', date: '2024/02/05 12:20', hasDot: false, details: '請於 02/15 前繳交二月份管理費。' },
-        { id: 17, title: '水塔清洗通知', date: '2024/01/21 12:20', hasDot: false, details: '明日 09:00~17:00 C 棟清洗水塔，詳情請看相關公告。' },
-        { id: 18, title: '包裹到貨通知', date: '2024/01/18 12:20', hasDot: false, details: '您的包裹已到達，請於 01/28 前取件。' },
-        { id: 19, title: '撞球桌預約提醒', date: '2024/01/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 20, title: '撞球桌預約提醒', date: '2024/01/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 21, title: '包裹到貨通知', date: '2024/01/13 12:20', hasDot: false, details: '您的包裹已到達，請於 01/23 前取件。' },
-        { id: 22, title: '包裹到貨通知', date: '2024/01/12 12:20', hasDot: false, details: '您的包裹已到達，請於 01/22 前取件。' },
-        { id: 23, title: 'KTV 預約提醒', date: '2024/01/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 24, title: '管理費繳費通知', date: '2024/01/05 12:20', hasDot: false, details: '請於 01/15 前繳交三月份管理費。' },
-        { id: 25, title: '水塔清洗通知', date: '2023/12/21 12:20', hasDot: false, details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
-        { id: 26, title: '包裹到貨通知', date: '2023/12/18 12:20', hasDot: false, details: '您的包裹已到達，請於 12/28 前取件。' },
-        { id: 27, title: '撞球桌預約提醒', date: '2023/12/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 28, title: '撞球桌預約提醒', date: '2023/12/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
-        { id: 29, title: '包裹到貨通知', date: '2023/12/13 12:20', hasDot: false, details: '您的包裹已到達，請於 12/23 前取件。' },
-        { id: 30, title: '包裹到貨通知', date: '2023/12/12 12:20', hasDot: false, details: '您的包裹已到達，請於 12/22 前取件。' },
-        { id: 31, title: 'KTV 預約提醒', date: '2023/12/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
-        { id: 32, title: '管理費繳費通知', date: '2023/12/05 12:20', hasDot: false, details: '請於 12/15 前繳交二月份管理費。' },
-        // more notifications
-    ]);
+    const navigation = useNavigation();
+
+    // const [notifications, setNotifications] = useState([
+    //     { id: 1, title: '水塔清洗通知', date: '2024/03/21 12:20', hasDot: true, details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 2, title: '包裹到貨通知', date: '2024/03/18 12:20', hasDot: true, details: '您的包裹已到達，請於 03/28 前取件。' },
+    //     { id: 3, title: '撞球桌預約提醒', date: '2024/03/17 12:20', hasDot: true, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 4, title: '撞球桌預約提醒', date: '2024/03/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 5, title: '包裹到貨通知', date: '2024/03/13 12:20', hasDot: false, details: '您的包裹已到達，請於 03/23 前取件。' },
+    //     { id: 6, title: '包裹到貨通知', date: '2024/03/12 12:20', hasDot: false, details: '您的包裹已到達，請於 03/22 前取件。' },
+    //     { id: 7, title: 'KTV 預約提醒', date: '2024/03/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 8, title: '管理費繳費通知', date: '2024/03/05 12:20', hasDot: false, details: '請於 03/15 前繳交三月份管理費。' },
+    //     { id: 9, title: '水塔清洗通知', date: '2024/02/21 12:20', hasDot: false, details: '明日 09:00~17:00 B 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 10, title: '包裹到貨通知', date: '2024/02/18 12:20', hasDot: true, details: '您的包裹已到達，請於 02/28 前取件。' },
+    //     { id: 11, title: '撞球桌預約提醒', date: '2024/02/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 12, title: '撞球桌預約提醒', date: '2024/02/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 13, title: '包裹到貨通知', date: '2024/02/13 12:20', hasDot: true, details: '您的包裹已到達，請於 02/23 前取件。' },
+    //     { id: 14, title: '包裹到貨通知', date: '2024/02/12 12:20', hasDot: false, details: '您的包裹已到達，請於 02/22 前取件。' },
+    //     { id: 15, title: 'KTV 預約提醒', date: '2024/02/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 16, title: '管理費繳費通知', date: '2024/02/05 12:20', hasDot: false, details: '請於 02/15 前繳交二月份管理費。' },
+    //     { id: 17, title: '水塔清洗通知', date: '2024/01/21 12:20', hasDot: false, details: '明日 09:00~17:00 C 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 18, title: '包裹到貨通知', date: '2024/01/18 12:20', hasDot: false, details: '您的包裹已到達，請於 01/28 前取件。' },
+    //     { id: 19, title: '撞球桌預約提醒', date: '2024/01/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 20, title: '撞球桌預約提醒', date: '2024/01/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 21, title: '包裹到貨通知', date: '2024/01/13 12:20', hasDot: false, details: '您的包裹已到達，請於 01/23 前取件。' },
+    //     { id: 22, title: '包裹到貨通知', date: '2024/01/12 12:20', hasDot: false, details: '您的包裹已到達，請於 01/22 前取件。' },
+    //     { id: 23, title: 'KTV 預約提醒', date: '2024/01/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 24, title: '管理費繳費通知', date: '2024/01/05 12:20', hasDot: false, details: '請於 01/15 前繳交三月份管理費。' },
+    //     { id: 25, title: '水塔清洗通知', date: '2023/12/21 12:20', hasDot: false, details: '明日 09:00~17:00 A 棟清洗水塔，詳情請看相關公告。' },
+    //     { id: 26, title: '包裹到貨通知', date: '2023/12/18 12:20', hasDot: false, details: '您的包裹已到達，請於 12/28 前取件。' },
+    //     { id: 27, title: '撞球桌預約提醒', date: '2023/12/17 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 28, title: '撞球桌預約提醒', date: '2023/12/16 12:20', hasDot: false, details: '您明日有預約撞球桌，詳情請看預約紀錄。' },
+    //     { id: 29, title: '包裹到貨通知', date: '2023/12/13 12:20', hasDot: false, details: '您的包裹已到達，請於 12/23 前取件。' },
+    //     { id: 30, title: '包裹到貨通知', date: '2023/12/12 12:20', hasDot: false, details: '您的包裹已到達，請於 12/22 前取件。' },
+    //     { id: 31, title: 'KTV 預約提醒', date: '2023/12/08 12:20', hasDot: false, details: '您明日有預約 KTV，詳情請看預約紀錄。' },
+    //     { id: 32, title: '管理費繳費通知', date: '2023/12/05 12:20', hasDot: false, details: '請於 12/15 前繳交二月份管理費。' },
+    //     // more notifications
+    // ]);
+    const [notifications, setNotifications] = useState([]);
+    useFocusEffect(
+        React.useCallback(() => {
+            // 重新執行你的 useEffect 邏輯
+            axios.get('http://10.0.2.2:3000/notifications')
+              .then((response) => {
+                setNotifications(response.data);
+              })
+              .catch((error) => {
+                console.log(error)
+              });
+
+            // 確保清理函數返回取消訂閱的邏輯
+            return () => {
+                // 清理函數（如果需要的話）
+            };
+        }, [])
+    );
 
     const [viewedNotifications, setViewedNotifications] = useState(new Set());
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,17 +77,19 @@ const Notification = () => {
             setIsOpen(!isOpen);
             onExpand(id);
             if (isOpen && hasDot) {
-
-                setNotifications(prevNotifications => 
-                    prevNotifications.map(notification => 
-                        notification.id === id ? { ...notification, hasDot: false } : notification
-                    )
-                );
-                
-                setViewedNotifications(prevViewedNotifications => {
-                    const updatedViewedNotifications = new Set(prevViewedNotifications);
-                    updatedViewedNotifications.add(id);
-                    return updatedViewedNotifications;
+                axios.put(`http://10.0.2.2:3000/notifications/id=${id}`)
+                .then((response) => {
+                    console.log(response.data)
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+                axios.get('http://10.0.2.2:3000/notifications')
+                .then((response) => {
+                  setNotifications(response.data);
+                })
+                .catch((error) => {
+                  console.log(error)
                 });
             }
         };
@@ -138,7 +161,7 @@ const Notification = () => {
                         id={notification.id}
                         title={notification.title}
                         date={notification.date}
-                        hasDot={notification.hasDot}
+                        hasDot={notification.hasdot}
                         details={notification.details}
                         onExpand={() => {}}
                         isLast={index === arr.length - 1}
